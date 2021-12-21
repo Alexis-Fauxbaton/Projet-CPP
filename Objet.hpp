@@ -7,7 +7,7 @@ class Objet
 {
     public:
         Objet():nom(""),hp(0),atk(0){};
-        Objet(std::string nom, int vie, int force):nom(nom),hp(vie),atk(force){};
+        Objet(std::string nom, int vie, int force, int defense, bool equipe):nom(nom),hp(vie),atk(force),def(defense),estEquipe(equipe){};
         ~Objet();
         //void afficher(); Implementation avec IMGUI
         void setNom(std::string name){nom=name;}
@@ -19,6 +19,7 @@ class Objet
         int getHP(){return hp;}
         int getAtk(){return atk;}
         int getDef(){return def;}
+        bool getEquipe(){return estEquipe;}
         Objet operator=(const Objet &objet);
 
     private://A modifier pour rendre heritage possible si besoin 
@@ -33,7 +34,7 @@ class Arme : public Objet
 {
     public:
         Arme():Objet(){};
-        Arme(std::string nom, int vie, int force):Objet(nom,vie,force){};
+        Arme(std::string nom, int vie, int force, int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
         ~Arme();        
 
 };
@@ -42,16 +43,17 @@ class Armure : public Objet
 {
     public:
         Armure():Objet(){};
-        Armure(std::string nom, int vie, int force):Objet(nom,vie,force){};
+        Armure(std::string nom, int vie, int force,int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
         ~Armure();
 
 };
 
 class Mystique : public Objet
+
 {
     public:
         Mystique():Objet(){};
-        Mystique(std::string nom, int vie, int force):Objet(nom,vie,force){};
+        Mystique(std::string nom, int vie, int force, int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
         ~Mystique();
 
 };
