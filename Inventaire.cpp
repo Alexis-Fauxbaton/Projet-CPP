@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "Inventaire.hpp"
+#include "Objet.hpp"
 using namespace std;
 
 
@@ -17,4 +18,35 @@ void Inventaire::retirerObjet(int index)
 {
     if (index<objets.size() && index>=0)
         objets.erase(objets.begin()+index);
+}
+
+
+void Inventaire::affecterObjet(Objet& objet, Personnage& personnage)
+{
+
+}
+
+
+void Inventaire::desaffecterObjet(Arme& arme, Personnage& personnage)
+{
+    arme.setEquipe(false);
+    personnage.getEquipement().getArme() = objets[0];
+    
+    
+}
+
+void Inventaire::desaffecterObjet(Armure& armure, Personnage& personnage)
+{
+    armure.setEquipe(false);
+    personnage.getEquipement().getArmure() = objets[1];
+    
+    
+}
+
+void Inventaire::desaffecterObjet(Mystique& mystique, Personnage& personnage)
+{
+    mystique.setEquipe(false);
+    personnage.getEquipement().getMystique() = objets[2];
+    
+    
 }

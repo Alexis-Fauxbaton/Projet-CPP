@@ -2,9 +2,10 @@
 #include <iostream>
 #include <string>
 #include "Inventaire.hpp"
+#include "Equipement.hpp"
 using namespace std;
 
-
+class Equipement;
 
 class Personnage
 {
@@ -21,11 +22,13 @@ class Personnage
         string getNom(){return nom;}
         int getHP(){return hp;}
         int getAtk(){return atk;}
+        Equipement& getEquipement(){return equipement;}
 
     protected:
         int hp;
         int atk;
         string nom;
+        Equipement equipement;
         
 };
 

@@ -7,6 +7,9 @@
 using namespace std;
 
 class Objet;
+class Arme;
+class Armure;
+class Mystique;
 
 class Equipement
 {
@@ -23,9 +26,9 @@ class Equipement
 
     private://A modifier pour rendre heritage possible si besoin 
         int max_objets;
-        Objet arme;
-        Objet armure;
-        Objet mystique;
+        Arme arme;
+        Armure armure;
+        Mystique mystique;
         
         
 };
