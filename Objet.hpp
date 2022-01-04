@@ -8,7 +8,7 @@ class Objet
     public:
         Objet():nom(""),hp(0),atk(0){};
         Objet(std::string nom, int vie, int force, int defense, bool equipe):nom(nom),hp(vie),atk(force),def(defense),estEquipe(equipe){};
-        ~Objet();
+        ~Objet(){};
         //void afficher(); Implementation avec IMGUI
         void setNom(std::string name){nom=name;}
         void setHp(int vie){hp=vie;}
@@ -35,7 +35,7 @@ class Arme : public Objet
     public:
         Arme():Objet(){};
         Arme(std::string nom, int vie, int force, int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
-        ~Arme();        
+        ~Arme(){};    
 
 };
 
@@ -44,7 +44,7 @@ class Armure : public Objet
     public:
         Armure():Objet(){};
         Armure(std::string nom, int vie, int force,int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
-        ~Armure();
+        ~Armure(){};
 
 };
 
@@ -54,6 +54,6 @@ class Mystique : public Objet
     public:
         Mystique():Objet(){};
         Mystique(std::string nom, int vie, int force, int defense, bool equipe):Objet(nom,vie,force,defense,equipe){};
-        ~Mystique();
+        ~Mystique(){};
 
 };

@@ -8,6 +8,16 @@ using namespace std;
 
 class Objet;
 
+Inventaire::Inventaire():max_objets(15)
+{
+    objets.push_back(Objet("Aucun",0,0,0,false));
+}
+
+int Inventaire::getNbObjet()
+{
+    return objets.size();
+}
+
 void Inventaire::ajouterObjet(Objet objet)
 {
     if (objets.size()<max_objets)

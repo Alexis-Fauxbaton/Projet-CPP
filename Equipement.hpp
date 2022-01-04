@@ -15,7 +15,7 @@ class Equipement
 {
     public:
         Equipement():arme(),armure(),mystique(){};
-        ~Equipement();
+        ~Equipement(){};
         Objet& getArme(){return arme;}
         Objet& getArmure(){return armure;}
         Objet& getMystique(){return mystique;}
