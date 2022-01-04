@@ -5,6 +5,32 @@
 //#include "Allie.hpp"
 using namespace std;
 
+void Personnage::appliquerEffetEquipement()
+{
+    atk=baseAtk+equipement.getArme().getAtk()+equipement.getArmure().getAtk()+equipement.getMystique().getAtk();
+
+    hp=baseHp+equipement.getArmure().getHP()+equipement.getMystique().getHP()+equipement.getArme().getHP();
+    
+}
+
+void Personnage::ajouterArme(Arme& arme)
+{
+    equipement.setArme(arme);
+    appliquerEffetEquipement();
+}
+
+void Personnage::ajouterArmure(Armure& armure)
+{
+    equipement.setArmure(armure);
+    appliquerEffetEquipement();
+}
+
+void Personnage::ajouterMystique(Mystique& mystique)
+{
+    equipement.setMystique(mystique);
+    appliquerEffetEquipement();
+}
+
 Allie::Allie(std::string nom, int vie, int force):Personnage(nom,vie,force)
 {
     
