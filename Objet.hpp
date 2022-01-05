@@ -6,8 +6,8 @@ using namespace std;
 class Objet
 {
     public:
-        Objet():nom(""),hp(0),atk(0){};
-        Objet(std::string nom, int vie, int force, int defense, bool equipe):nom(nom),hp(vie),atk(force),def(defense),estEquipe(equipe){};
+        Objet():hp(0),atk(0),def(0),nom(""),estEquipe(false){};
+        Objet(std::string nom, int vie, int force, int defense, bool equipe):hp(vie),atk(force),def(defense),nom(nom),estEquipe(equipe){};
         ~Objet(){};
         //void afficher(); Implementation avec IMGUI
         void setNom(std::string name){nom=name;}

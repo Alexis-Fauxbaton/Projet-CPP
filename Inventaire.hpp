@@ -17,7 +17,7 @@ class Inventaire//Inventaire du Master
         ~Inventaire(){};
         int getNbObjet();
         void ajouterObjet(Objet objet);
-        void retirerObjet(int index);
+        void retirerObjet(size_t index);
         void affecterObjet(Arme& arme, Personnage& personnage); // A coder
         void affecterObjet(Armure& armure, Personnage& personnage);
         void affecterObjet(Mystique& mystique, Personnage& personnage);
@@ -27,7 +27,7 @@ class Inventaire//Inventaire du Master
         //void afficher(); Implementation avec IMGUI
 
     private://A modifier pour rendre heritage possible si besoin 
-        int max_objets;
+        size_t max_objets;
         vector<Objet> objets;
         
         

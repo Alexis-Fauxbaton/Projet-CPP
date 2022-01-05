@@ -18,8 +18,8 @@ class Mystique;
 class Personnage
 {
     public:
-        Personnage():nom(""),hp(0),atk(0){};
-        Personnage(std::string nom, int vie, int force):nom(nom),hp(vie),atk(force),baseAtk(force),baseHp(vie){};
+        Personnage():hp(0),atk(0),nom(""),equipement(),baseAtk(0),baseHp(0){};
+        Personnage(std::string nom, int vie, int force):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie){};
         ~Personnage(){};
         //void afficher(); Implementation avec IMGUI
         virtual void attaquer(Allie &cible)=0;

@@ -24,9 +24,9 @@ void Inventaire::ajouterObjet(Objet objet)
         objets.push_back(objet);
 }
 
-void Inventaire::retirerObjet(int index)
+void Inventaire::retirerObjet(size_t index)
 {
-    if (index<objets.size() && index>=0)
+    if (index<objets.size())
         objets.erase(objets.begin()+index);
 }
 
