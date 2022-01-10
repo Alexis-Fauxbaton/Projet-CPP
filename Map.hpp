@@ -35,6 +35,7 @@ class Map
         vector<Ennemi> ennemis; //Initialisés aléatoirement ?
         //Ajouter un attribut caractérisant les portes nord sud est ouest 
         //par lesquelles le joueur peut sortir/entrer de la map
+        //AJOUTER LARGEUR ET LONGUEUR EN PIXELS
         bool jouee_actuellement;
         bool active;
         sf::Sprite sprite;
