@@ -16,6 +16,8 @@ class Arme;
 class Armure;
 class Mystique;
 
+int v_abs(int a);
+
 class Personnage
 {
     public:
@@ -40,6 +42,8 @@ class Personnage
         void setPosition(size_t x, size_t y){this->x=x;this->y=y;}
         size_t getX(){return x;}
         size_t getY(){return y;}
+        sf::Sprite getSprite(){return sprite;}
+        bool estProche(Personnage& cible, int distance);
 
 
     protected:
@@ -52,6 +56,7 @@ class Personnage
         size_t x;
         size_t y;
         sf::Sprite sprite;
+        sf::Texture texture;
         
 };
 

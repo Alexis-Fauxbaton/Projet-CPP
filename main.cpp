@@ -11,11 +11,12 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 int main()
 {
     vector<Map> maps;
-    Map map = Map(vector<Ennemi>(), false, false, "Images/Forest_R.png", "Images/Forest_Combat.png");     
+    Map map = Map(vector<Ennemi>(), false, false, "Images/Forest_R.png", "Images/Forest_Combat_R.png");     
     maps.push_back(map);
     Game jeu;
     jeu.run(maps);
