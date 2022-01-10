@@ -15,14 +15,25 @@ using namespace std;
 class Map
 {
     public:
-        Map();
+        Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path);
         ~Map();
+        void setJouee(bool jouee){jouee_actuellement=jouee;}
+        bool getJouee(){return jouee_actuellement;}
+        void setActive(bool activation){active=activation;}
+        bool getActive(){return active;}
+        void setEnnemis(vector<Ennemi> v_ennemis){ennemis=v_ennemis;}
+        vector<Ennemi> getEnnemis(){return ennemis;}
+        void ajouterEnnemi(Ennemi& ennemi){ennemis.push_back(ennemi);}
+        void retirerEnnemi(size_t index){ennemis.erase(ennemis.begin()+index);}
         void run();
 
     private:
         vector<Ennemi> ennemis; //Initialisés aléatoirement ?
         //Ajouter un attribut caractérisant les portes nord sud est ouest 
         //par lesquelles le joueur peut sortir/entrer de la map
-        bool currently_played;
+        bool jouee_actuellement;
+        bool active;
+        sf::Sprite sprite;
+        sf::Sprite sprite_combat;
   
 };

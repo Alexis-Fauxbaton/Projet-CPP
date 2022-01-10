@@ -20,7 +20,7 @@ class Personnage
 {
     public:
         Personnage();
-        Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor){};
+        Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
         ~Personnage(){};
         //void afficher(); Implementation avec IMGUI
         virtual void attaquer(Allie &cible)=0;
@@ -37,6 +37,9 @@ class Personnage
         void ajouterArme(Arme& arme);
         void ajouterArmure(Armure& armure);
         void ajouterMystique(Mystique& mystique);
+        void setPosition(size_t x, size_t y){this->x=x;this->y=y;}
+        size_t getX(){return x;}
+        size_t getY(){return y;}
 
 
     protected:
