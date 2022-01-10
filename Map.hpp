@@ -16,13 +16,17 @@ class Map
 {
     public:
         Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path);
-        ~Map();
+        ~Map(){};
         void setJouee(bool jouee){jouee_actuellement=jouee;}
         bool getJouee(){return jouee_actuellement;}
         void setActive(bool activation){active=activation;}
         bool getActive(){return active;}
         void setEnnemis(vector<Ennemi> v_ennemis){ennemis=v_ennemis;}
         vector<Ennemi> getEnnemis(){return ennemis;}
+        void setSprite(sf::Sprite sprite){this->sprite=sprite;}
+        void setSpriteCombat(sf::Sprite sprite){this->sprite_combat=sprite;}
+        sf::Sprite getSprite(){return sprite;}
+        sf::Sprite getSpriteCombat(){return sprite_combat;}
         void ajouterEnnemi(Ennemi& ennemi){ennemis.push_back(ennemi);}
         void retirerEnnemi(size_t index){ennemis.erase(ennemis.begin()+index);}
         void run();
@@ -35,5 +39,7 @@ class Map
         bool active;
         sf::Sprite sprite;
         sf::Sprite sprite_combat;
+        sf::Texture texture;
+        sf::Texture texture_combat;
   
 };

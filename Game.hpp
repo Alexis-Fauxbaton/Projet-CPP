@@ -3,6 +3,7 @@
 #include "Equipement.hpp"
 #include "Objet.hpp"
 #include "Personnage.hpp"
+#include "Map.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,14 +11,20 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
+using namespace std;
+
+//vector<Objet> OBJETS; // A DEFINIR
+
+//vector<Map> MAPS; // A DEFINIR
 
 class Game
 {
     public:
-        Game();
-        ~Game();
-        void run();
+        Game():en_cours(true){}
+        ~Game(){};
+        void run(vector<Map> maps);
 
     private:
+        bool en_cours;
 
 };

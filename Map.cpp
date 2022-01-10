@@ -14,13 +14,8 @@ using namespace std;
 
 Map::Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path):ennemis(v_ennemis),jouee_actuellement(jouee),active(activation)
 {
-    string path("Images/");
-    path+=texture_path;
-    sf::Texture texture;
-    texture.loadFromFile(path);   
+    texture.loadFromFile(texture_path);   
     sprite.setTexture(texture);
-    path = "Images/";
-    path+=combat_texture_path;
-    texture.loadFromFile(path);
-    sprite_combat.setTexture(texture);
+    texture_combat.loadFromFile(combat_texture_path);
+    sprite_combat.setTexture(texture_combat);
 }
