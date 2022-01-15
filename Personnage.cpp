@@ -27,6 +27,12 @@ Personnage::Personnage(std::string nom, int vie, int force, size_t x_coor, size_
     sprite.setPosition(x,y);
 }
 
+Personnage::Personnage(const Personnage& orig):hp(orig.hp),atk(orig.atk),nom(orig.nom),equipement(orig.equipement),baseAtk(orig.baseAtk),baseHp(orig.baseHp),x(orig.x),y(orig.y)
+{
+    texture = orig.texture;
+    sprite.setTexture(texture);
+    sprite.setPosition(x,y);
+}
 
 void Personnage::appliquerEffetEquipement()
 {

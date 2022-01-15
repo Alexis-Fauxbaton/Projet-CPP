@@ -15,6 +15,7 @@ using namespace std;
 class Map
 {
     public:
+        Map();
         Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path);
         ~Map(){};
         void setJouee(bool jouee){jouee_actuellement=jouee;}
@@ -25,8 +26,11 @@ class Map
         vector<Ennemi> getEnnemis(){return ennemis;}
         void setSprite(sf::Sprite sprite){this->sprite=sprite;}
         void setSpriteCombat(sf::Sprite sprite){this->sprite_combat=sprite;}
+        void setSpriteCombatPosition(size_t x, size_t y){sprite_combat.setPosition(x,y);}
         sf::Sprite getSprite(){return sprite;}
         sf::Sprite getSpriteCombat(){return sprite_combat;}
+        sf::Texture getTexture(){return texture;}
+        sf::Texture getTextureCombat(){return texture_combat;}
         void ajouterEnnemi(Ennemi& ennemi){ennemis.push_back(ennemi);}
         void retirerEnnemi(size_t index){ennemis.erase(ennemis.begin()+index);}
         void run();

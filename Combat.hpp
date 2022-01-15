@@ -4,7 +4,6 @@
 #include "Objet.hpp"
 #include "Personnage.hpp"
 #include "Map.hpp"
-#include "Combat.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,20 +12,23 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
+
+class Allie;
+class Ennemi;
+
 using namespace std;
 
-//vector<Objet> OBJETS; // A DEFINIR
+class Combat{
 
-//vector<Map> MAPS; // A DEFINIR
-
-class Game
-{
     public:
-        Game():en_cours(true){}
-        ~Game(){};
-        void run(vector<Map> maps);
+    
+        Combat(Allie &_P1, Ennemi &_P2,Map& _map);
+        
+        void commencer(sf::RenderWindow &window);
 
     private:
-        bool en_cours;
+        Allie perso1;
+        Ennemi perso2;
+        Map map;
 
 };

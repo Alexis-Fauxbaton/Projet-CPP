@@ -23,6 +23,7 @@ class Personnage
     public:
         Personnage();
         Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
+        Personnage(const Personnage& orig);
         ~Personnage(){};
         //void afficher(); Implementation avec IMGUI
         virtual void attaquer(Allie &cible)=0;
@@ -43,6 +44,7 @@ class Personnage
         size_t getX(){return x;}
         size_t getY(){return y;}
         sf::Sprite getSprite(){return sprite;}
+        sf::Texture getTexture(){return texture;}
         bool estProche(Personnage& cible, int distance);
 
 
@@ -66,6 +68,7 @@ class Allie : public Personnage
 {
 
     public:
+        Allie():Personnage(){};
         Allie(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path);
         void attaquer(Ennemi &cible);
         void attaquer(Allie &cible){};
@@ -75,6 +78,7 @@ class Allie : public Personnage
 class Ennemi : public Personnage
 {
     public:
+        Ennemi():Personnage(){};
         Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
         void attaquer(Allie &cible);
         void attaquer(Ennemi &cible){};

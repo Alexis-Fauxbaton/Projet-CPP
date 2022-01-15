@@ -4,6 +4,7 @@
 #include "Objet.hpp"
 #include "Personnage.hpp"
 #include "Map.hpp"
+#include "Combat.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -68,10 +69,21 @@ void Game::run(vector<Map> maps)
         }
         if(en_combat)
         {
+            cout << "Map position 1 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
+            maps[0].getSpriteCombat().setPosition(20,20);
+            cout << "Map position 2 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
+            Combat combat(perso,ennemis[0],maps[0]);
+            combat.commencer(window);
+            /* BON CODE
             window.clear();
             window.draw(maps[0].getSpriteCombat());
             //SUITE D'INSTRUCTIONS POUR LE COMBAT
-            window.display();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            {
+                en_combat = false;
+            }
+            window.display();*/
+            en_combat = false;
         }
         else
         {
