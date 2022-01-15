@@ -23,15 +23,59 @@ void Game::run(vector<Map> maps)
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
     }
 
-    Allie perso("Poubelle",100,50,100,340,"Images/poubelle2.png");
-    sf::Sprite sprite_perso = perso.getSprite();
+    Maitre joueur("Poubelle",100,50,100,340,"Images/poubelle2.png");
+    
+    sf::Sprite sprite_joueur = joueur.getSprite();
+
+
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
     sf::SoundBuffer buffer;
     buffer.loadFromFile("Sound/pokemon_eterna_forest.wav");
     sf::Sound sound(buffer);
     sound.setLoop(true);
-    sound.play();
+    // sound.play();
     bool en_combat = false;
+
+
+    // Creation des allies
+
+    Allie poubelle("Poubelle",100,10,200,250,"Images/poubelle2.png");
+    //poubelle.setPosition(150,650);  
+    vector<Allie> vector_poubelle;
+    vector_poubelle.push_back(Allie("Poubelle",100,10,600,500,"Images/poubelle2.png"));
+    vector_poubelle.push_back(poubelle);
+    cout << "ICI1" << endl;
+
+    //joueur.addAllie(poubelle);
+    
+
+
+
+    // cout << "NAME 0" << joueur.getAllie(0).getNom() << endl;
+    // joueur.addAllie(Allie("Eolienne",100,10,250,230,"Images/wind-turbine.png"));
+    // joueur.addAllie(Allie("Panneau",100,10,300,230,"Images/solar-pannel.png"));
+
+    // sf::Sprite Sprite_poubelle = joueur.getAllie(0).getSprite();
+    // Creation des bars de vie
+
+    
+
+    // Creation des items
+
+    Arme epee_perso("Epée",0,20,0,true,"Images/épée_1.png");
+    sf::Sprite sprite_arme_perso = epee_perso.getSprite();
+
+    // Creation du texte de combat
+
+    
+
+    // Item sprite
+
+    sf::Sprite spirte_arme_perso = joueur.getEquipement().getArme().getSprite();
+
+    cout << "ICI2" << endl;
+
     while(1)
     {
         sf::Event event;
@@ -46,23 +90,23 @@ void Game::run(vector<Map> maps)
             {
                 if (!en_combat)
                 {
-                    if (event.key.code == sf::Keyboard::Up && perso.getY() > 0)
+                    if (event.key.code == sf::Keyboard::Up && joueur.getY() > 0)
                     {
-                        perso.setPosition(perso.getX(),perso.getY()-10);
+                        joueur.setPosition(joueur.getX(),joueur.getY()-10);
                     }
-                    else if (event.key.code == sf::Keyboard::Down && perso.getY() < 599)
+                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() < 599)
                     {
-                        perso.setPosition(perso.getX(),perso.getY()+10);
+                        joueur.setPosition(joueur.getX(),joueur.getY()+10);
                     }
-                    else if (event.key.code == sf::Keyboard::Left && perso.getX() > 0)
+                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() > 0)
                     {
-                        perso.setPosition(perso.getX()-10,perso.getY());
+                        joueur.setPosition(joueur.getX()-10,joueur.getY());
                     }
-                    else if (event.key.code == sf::Keyboard::Right && perso.getX() < 799)
+                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() < 799)
                     {
-                        perso.setPosition(perso.getX()+10,perso.getY());
+                        joueur.setPosition(joueur.getX()+10,joueur.getY());
                     }
-                    sprite_perso.setPosition(perso.getX(),perso.getY());
+                    sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 }
             }
             
@@ -72,7 +116,7 @@ void Game::run(vector<Map> maps)
             cout << "Map position 1 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
             maps[0].getSpriteCombat().setPosition(20,20);
             cout << "Map position 2 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
-            Combat combat(perso,ennemis[0],maps[0]);
+            Combat combat(joueur,ennemis[0],maps[0]);
             combat.commencer(window);
             /* BON CODE
             window.clear();
@@ -94,10 +138,10 @@ void Game::run(vector<Map> maps)
             
             for (size_t i = 0;i<ennemis.size();i++)
             {
-                if (perso.estProche(ennemis[i],10))
+                if (joueur.estProche(ennemis[i],10))
                 {
                     cout << "Ennemi " << i << " est proche" << endl;
-                    cout << "Perso" << perso.getX() << " " << perso.getY() << endl;
+                    cout << "joueur" << joueur.getX() << " " << joueur.getY() << endl;
                     cout << "Ennemi" << ennemis[i].getX() << " " << ennemis[i].getY() << endl;
                     en_combat = true;
                     break;
@@ -109,7 +153,9 @@ void Game::run(vector<Map> maps)
             {
                 window.draw(ennemis[i].getSprite());
             }
-            window.draw(sprite_perso);
+            window.draw(sprite_joueur);
+            
+            window.draw(vector_poubelle[0].getSprite());
             window.display();
         }
     }

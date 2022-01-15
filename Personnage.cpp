@@ -59,7 +59,7 @@ void Personnage::ajouterMystique(Mystique& mystique)
     equipement.setMystique(mystique);
     appliquerEffetEquipement();
 }
-
+    
 bool Personnage::estProche(Personnage& cible, int distance)
 {
     int a = static_cast<int>(x - cible.getX());
@@ -73,13 +73,21 @@ bool Personnage::estProche(Personnage& cible, int distance)
 
 Allie::Allie(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
 {
-    
+    lifebar_perso.setFillColor(sf::Color::Red);
+    lifebar_perso.setPosition(150,230);
 }
 
 void Allie::attaquer(Ennemi &cible)
 {
     cible.subir(this->atk);
 }
+
+Ennemi::Ennemi(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
+{
+    lifebar_perso.setFillColor(sf::Color::Red);
+    lifebar_perso.setPosition(150,230);
+}
+
 
 void Ennemi::attaquer(Allie &cible)
 {

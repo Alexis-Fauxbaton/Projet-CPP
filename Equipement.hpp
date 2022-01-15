@@ -3,6 +3,10 @@
 #include <string>
 #include <vector>
 #include "Objet.hpp"
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+#include <SFML/Audio.hpp>
 
 using namespace std;
 
@@ -32,3 +36,4 @@ class Equipement
         
         
 };
+

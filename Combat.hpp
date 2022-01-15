@@ -11,9 +11,9 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
+  
 
-
-class Allie;
+class Maitre;
 class Ennemi;
 
 using namespace std;
@@ -22,12 +22,12 @@ class Combat{
 
     public:
     
-        Combat(Allie &_P1, Ennemi &_P2,Map& _map);
+        Combat(Maitre &_P1, Ennemi &_P2,Map& _map);
         
         void commencer(sf::RenderWindow &window);
 
     private:
-        Allie perso1;
+        Maitre perso1;
         Ennemi perso2;
         Map map;
 

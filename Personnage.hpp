@@ -43,7 +43,7 @@ class Personnage
         void setPosition(size_t x, size_t y){this->x=x;this->y=y;}
         size_t getX(){return x;}
         size_t getY(){return y;}
-        sf::Sprite getSprite(){return sprite;}
+        sf::Sprite& getSprite(){return sprite;}
         sf::Texture getTexture(){return texture;}
         bool estProche(Personnage& cible, int distance);
 
@@ -70,8 +70,13 @@ class Allie : public Personnage
     public:
         Allie():Personnage(){};
         Allie(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path);
+
+        sf::RectangleShape& getLifeBar(){return lifebar_perso;};
         void attaquer(Ennemi &cible);
         void attaquer(Allie &cible){};
+    
+    protected:
+        sf::RectangleShape lifebar_perso;
 
 };
 
@@ -79,12 +84,35 @@ class Ennemi : public Personnage
 {
     public:
         Ennemi():Personnage(){};
-        Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
+        Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
+
+        sf::RectangleShape& getLifeBar(){return lifebar_perso;};
+
         void attaquer(Allie &cible);
         void attaquer(Ennemi &cible){};
+
+    protected:
+        sf::RectangleShape lifebar_perso;
 };
 
+class Maitre : public Personnage
+{
+    public:
+        Maitre():Personnage(){};
+        Maitre(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
 
+        vector<Allie> getAllAllies(){return perso_allies;};
+        Allie getAllie(size_t indice){return perso_allies[indice];};
+
+        void addAllie(Allie &allie){perso_allies.push_back(allie);};
+        void attaquer(Allie &cible){};
+        void attaquer(Ennemi &cible){};
+
+
+    protected:
+        vector<Allie> perso_allies;
+
+};
 
 
 

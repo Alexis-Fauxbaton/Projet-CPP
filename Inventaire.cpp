@@ -10,7 +10,7 @@ class Objet;
 
 Inventaire::Inventaire():max_objets(15)
 {
-    objets.push_back(Objet("Aucun",0,0,0,false));
+    objets.push_back(Objet("Aucun",0,0,0,false,"")); // ajout d'un texture_path vide par defaut
 }
 
 int Inventaire::getNbObjet()
