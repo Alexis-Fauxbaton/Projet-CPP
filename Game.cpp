@@ -21,6 +21,8 @@ void Game::run(vector<Map> maps)
     bool switched = true;
     int map_index = 0;
     int combat_index = 0;
+    int new_x = 0;
+    int new_y = 0;
     vector<Ennemi> ennemis;
     /*for (size_t i = 0;i < 3;i++)
     {
@@ -76,16 +78,24 @@ void Game::run(vector<Map> maps)
 
     cout << "ICI2" << endl;
 
-    sf::Sound music;
+    sf::SoundBuffer default_buffer;
+    default_buffer.loadFromFile("Sound/pokemon_eterna_forest.wav");
+
+    sf::Sound music(default_buffer);
+    music.setLoop(true);
+    music.play();
 
     while(1)
     {
         if (switched)
         {
-            music.setBuffer(map_actuelle->getBufferMain());
+            if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
+            {
+                music.setBuffer(map_actuelle->getBufferMain());
+                music.setLoop(true);
+                music.play();
+            }
             ennemis = map_actuelle->getEnnemis();
-            music.setLoop(true);
-            music.play();
             switched = false;
         }
 
@@ -124,11 +134,12 @@ void Game::run(vector<Map> maps)
         }
         if(en_combat)
         {
-            music.setBuffer(maps[0].getBufferCombat());
+
+            music.setBuffer(map_actuelle->getBufferCombat());
             music.setLoop(true);
             music.play();
             cout << "Map position 1 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
-            maps[0].getSpriteCombat().setPosition(20,20);
+            map_actuelle->getSpriteCombat().setPosition(20,20);
             cout << "Map position 2 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             Combat combat(joueur,ennemis[combat_index],maps[map_index]);
             if (combat.commencer(window))
@@ -149,6 +160,10 @@ void Game::run(vector<Map> maps)
             if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
             {
                 map_actuelle = map_actuelle->getMapNord();
+                new_x = (map_actuelle->getPorteSud().getX2() + map_actuelle->getPorteSud().getX1())/2;
+                new_y = map_actuelle->getPorteSud().getY1()-20;
+                joueur.setPosition(new_x,new_y);
+                sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;
             }
 
@@ -157,6 +172,10 @@ void Game::run(vector<Map> maps)
             if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
             {
                 map_actuelle = map_actuelle->getMapSud();
+                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2;
+                new_y = map_actuelle->getPorteNord().getY1()+20;
+                joueur.setPosition(new_x,new_y);
+                sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;
             }
             

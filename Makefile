@@ -5,7 +5,7 @@ all:
 valgrind:
 	g++ -g -Wall -c *.cpp
 	g++ *.o -o main -lsfml-graphics -lsfml-window -lsfml-system -lsfml-audio
-	valgrind --leak-check=full --show-reachable=yes ./main
+	valgrind ./main
 
 clean:
 	rm *.o
