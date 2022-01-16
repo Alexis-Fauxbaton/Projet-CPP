@@ -17,6 +17,7 @@ using namespace std;
 
 void Game::run(vector<Map> maps)
 {
+    Map* map_actuelle = &maps[0];
     bool switched = true;
     int map_index = 0;
     int combat_index = 0;
@@ -81,8 +82,8 @@ void Game::run(vector<Map> maps)
     {
         if (switched)
         {
-            music.setBuffer(maps[map_index].getBufferMain());
-            ennemis = maps[map_index].getEnnemis();
+            music.setBuffer(map_actuelle->getBufferMain());
+            ennemis = map_actuelle->getEnnemis();
             music.setLoop(true);
             music.play();
             switched = false;
@@ -126,12 +127,15 @@ void Game::run(vector<Map> maps)
             music.setBuffer(maps[0].getBufferCombat());
             music.setLoop(true);
             music.play();
-            cout << "Map position 1 " <<maps[map_index].getSpriteCombat().getPosition().x << maps[map_index].getSpriteCombat().getPosition().y << endl;
+            cout << "Map position 1 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             maps[0].getSpriteCombat().setPosition(20,20);
-            cout << "Map position 2 " <<maps[map_index].getSpriteCombat().getPosition().x << maps[map_index].getSpriteCombat().getPosition().y << endl;
+            cout << "Map position 2 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             Combat combat(joueur,ennemis[combat_index],maps[map_index]);
             if (combat.commencer(window))
+            {
+                window.close();
                 return;
+            }
 
             en_combat = false;
         }
@@ -140,6 +144,21 @@ void Game::run(vector<Map> maps)
             
             //SUITE D'INSTRUCTIONS POUR LE JEU HORS COMBAT
             
+            //CHECK SI LE JOUEUR EST SUR LA PORTE NORD
+
+            if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
+            {
+                map_actuelle = map_actuelle->getMapNord();
+                switched = true;
+            }
+
+            //CHECK SI LE JOUEUR EST SUR LA PORTE SUD
+
+            if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
+            {
+                map_actuelle = map_actuelle->getMapSud();
+                switched = true;
+            }
             
             for (size_t i = 0;i<ennemis.size();i++)
             {
@@ -157,7 +176,7 @@ void Game::run(vector<Map> maps)
 
 
             window.clear();
-            window.draw(maps[map_index].getSprite());
+            window.draw(map_actuelle->getSprite());
             for (size_t i=0;i<ennemis.size();i++)
             {
                 window.draw(ennemis[i].getSprite());

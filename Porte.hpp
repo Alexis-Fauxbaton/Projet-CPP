@@ -37,6 +37,8 @@ class Porte
 
         bool entre(int x, int y);
 
+        void afficher_coordonnees(){std::cout<<"x1: "<<x1<<" y1: "<<y1<<std::endl<<" x2: "<<x2<<" y2: "<<y2<<std::endl;}
+
     private:
         int x1;
         int x2;

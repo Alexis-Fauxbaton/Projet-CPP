@@ -46,6 +46,7 @@ class Personnage
         sf::Sprite& getSprite(){return sprite;}
         sf::Texture getTexture(){return texture;}
         bool estProche(Personnage& cible, int distance);
+        bool estMort(){return hp<=0;}
 
 
     protected:
