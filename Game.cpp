@@ -34,7 +34,7 @@ void Game::run(vector<Map> maps)
     buffer.loadFromFile("Sound/pokemon_eterna_forest.wav");
     sf::Sound sound(buffer);
     sound.setLoop(true);
-    // sound.play();
+    sound.play();
     bool en_combat = false;
 
 
