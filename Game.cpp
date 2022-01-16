@@ -17,11 +17,14 @@ using namespace std;
 
 void Game::run(vector<Map> maps)
 {
+    bool switched = true;
+    int map_index = 0;
+    int combat_index = 0;
     vector<Ennemi> ennemis;
-    for (size_t i = 0;i < 3;i++)
+    /*for (size_t i = 0;i < 3;i++)
     {
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
-    }
+    }*/
 
     Maitre joueur("Poubelle",100,50,100,340,"Images/poubelle2.png");
     
@@ -30,11 +33,7 @@ void Game::run(vector<Map> maps)
 
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
-    sf::SoundBuffer buffer;
-    buffer.loadFromFile("Sound/pokemon_eterna_forest.wav");
-    sf::Sound sound(buffer);
-    sound.setLoop(true);
-    sound.play();
+
     bool en_combat = false;
 
 
@@ -76,8 +75,19 @@ void Game::run(vector<Map> maps)
 
     cout << "ICI2" << endl;
 
+    sf::Sound music;
+
     while(1)
     {
+        if (switched)
+        {
+            music.setBuffer(maps[map_index].getBufferMain());
+            ennemis = maps[map_index].getEnnemis();
+            music.setLoop(true);
+            music.play();
+            switched = false;
+        }
+
         sf::Event event;
         while(window.pollEvent(event))
         {
@@ -113,26 +123,21 @@ void Game::run(vector<Map> maps)
         }
         if(en_combat)
         {
-            cout << "Map position 1 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
+            music.setBuffer(maps[0].getBufferCombat());
+            music.setLoop(true);
+            music.play();
+            cout << "Map position 1 " <<maps[map_index].getSpriteCombat().getPosition().x << maps[map_index].getSpriteCombat().getPosition().y << endl;
             maps[0].getSpriteCombat().setPosition(20,20);
-            cout << "Map position 2 " <<maps[0].getSpriteCombat().getPosition().x << maps[0].getSpriteCombat().getPosition().y << endl;
-            Combat combat(joueur,ennemis[0],maps[0]);
-            combat.commencer(window);
-            /* BON CODE
-            window.clear();
-            window.draw(maps[0].getSpriteCombat());
-            //SUITE D'INSTRUCTIONS POUR LE COMBAT
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-            {
-                en_combat = false;
-            }
-            window.display();*/
+            cout << "Map position 2 " <<maps[map_index].getSpriteCombat().getPosition().x << maps[map_index].getSpriteCombat().getPosition().y << endl;
+            Combat combat(joueur,ennemis[combat_index],maps[map_index]);
+            if (combat.commencer(window))
+                return;
+
             en_combat = false;
         }
         else
         {
-            window.clear();
-            window.draw(maps[0].getSprite());
+            
             //SUITE D'INSTRUCTIONS POUR LE JEU HORS COMBAT
             
             
@@ -144,11 +149,15 @@ void Game::run(vector<Map> maps)
                     cout << "joueur" << joueur.getX() << " " << joueur.getY() << endl;
                     cout << "Ennemi" << ennemis[i].getX() << " " << ennemis[i].getY() << endl;
                     en_combat = true;
+                    combat_index = i;
                     break;
                 }
             }
 
 
+
+            window.clear();
+            window.draw(maps[map_index].getSprite());
             for (size_t i=0;i<ennemis.size();i++)
             {
                 window.draw(ennemis[i].getSprite());

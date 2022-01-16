@@ -20,7 +20,7 @@ Combat::Combat(Maitre &_P1, Ennemi &_P2,Map& _map)
 }
 
 
-void Combat::commencer(sf::RenderWindow &window){
+bool Combat::commencer(sf::RenderWindow &window){
 
     window.create(sf::VideoMode(800, 400), "Combat");
 
@@ -74,6 +74,16 @@ void Combat::commencer(sf::RenderWindow &window){
     text4.setPosition(20,115);
 
     while(1){
+        sf::Event event;
+
+        while(window.pollEvent(event))
+        {
+            if(event.type == sf::Event::Closed)
+            {
+                window.close();
+                return true;
+            }
+        }
 
         //std::cout << "map sprite position :" << map.getSpriteCombat().getPosition().x << map.getSpriteCombat().getPosition().y << std::endl; 
 
@@ -97,4 +107,5 @@ void Combat::commencer(sf::RenderWindow &window){
         //std::cout << "voucle inf" << std::endl;
 
     }
+    return false;
 }
