@@ -16,7 +16,7 @@ class Map
 {
     public:
         Map();
-        Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path);
+        Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path, string main_sound_path, string combat_sound_path);
         ~Map(){};
         void setJouee(bool jouee){jouee_actuellement=jouee;}
         bool getJouee(){return jouee_actuellement;}
@@ -46,5 +46,7 @@ class Map
         sf::Sprite sprite_combat;
         sf::Texture texture;
         sf::Texture texture_combat;
+        sf::SoundBuffer buffer_main;
+        sf::SoundBuffer buffer_combat;
   
 };

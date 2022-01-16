@@ -17,11 +17,14 @@ Map::Map():ennemis(),jouee_actuellement(false),active(false),sprite(sf::Sprite()
     cout << "Constructeur Map" << endl;
 }
 
-Map::Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path):ennemis(v_ennemis),jouee_actuellement(jouee),active(activation)
+Map::Map(vector<Ennemi> v_ennemis, bool jouee, bool activation, string texture_path, string combat_texture_path, string main_sound_path, string combat_sound_path):ennemis(v_ennemis),jouee_actuellement(jouee),active(activation)
 {
     texture.loadFromFile(texture_path);   
     sprite.setTexture(texture);
     texture_combat.loadFromFile(combat_texture_path);
     sprite_combat.setTexture(texture_combat);
     setSpriteCombatPosition(ennemis.size(),ennemis.size());
+    buffer_main.loadFromFile(main_sound_path);
+    buffer_combat.loadFromFile(combat_sound_path);
+    
 }
