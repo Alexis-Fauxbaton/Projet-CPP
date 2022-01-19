@@ -12,6 +12,8 @@
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
 
+using namespace std;
+
 Combat::Combat(Maitre &_P1, Ennemi &_P2,Map& _map)
 {
     perso1 = _P1;
@@ -24,25 +26,30 @@ bool Combat::commencer(sf::RenderWindow &window){
 
     window.create(sf::VideoMode(800, 400), "Combat");
 
-    sf::Texture texture_perso1 = perso1.getTexture();
-    sf::Texture texture_perso2 = perso2.getTexture();
     sf::Texture texture_map = map.getTextureCombat();
-    sf::Image image_perso1 = texture_perso1.copyToImage();
-    sf::Image image_perso2 = texture_perso2.copyToImage();
+    sf::Sprite sprite_map(texture_map);
+    
                
     // Positionnement allies Personnages
 
     perso1.getSprite().setPosition(100,240);
-    perso2.getSprite().setPosition(650,240);
+    perso2.getSprite().setPosition(650,240);                 
+    cout << perso1.getSprite().getPosition().x << endl;
 
-    // for(size_t i;i<perso1.getAllAllies().size();i++){
-    //     perso1.getAllie(i).setPosition(perso1.getX()+(i+1)*50,perso1.getY());
-    // }
+    for(size_t i=0;i < perso1.getAllAllies().size();i++){
+        perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+60*(i+1),perso1.getSprite().getPosition().y));
+    }
+                   
+    // perso1.getAllie(0).getSprite().setPosition(500,100);
+    cout << perso1.getAllie(0).getSprite().getPosition().x << endl;
 
-    
-    sf::Sprite sprite_map(texture_map);
+    // Bar de vies et menus       
 
-    // Bar de vies et menus
+    for(size_t i= 0;i<perso1.getAllAllies().size();i++){
+        perso1.getAllie(i).getLifeBar().setFillColor(sf::Color::Red);
+        perso1.getAllie(i).getLifeBar().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-10);
+        perso1.getAllie(i).getLifeBar().setSize(sf::Vector2f(perso1.getAllie(i).getHP()/2,5));
+    }
 
 
     perso2.getLifeBar().setFillColor(sf::Color::Red);
@@ -64,48 +71,118 @@ bool Combat::commencer(sf::RenderWindow &window){
     sf::Font font_game;
     font_game.loadFromFile("Fonts/game_font.TTF");
 
-    sf::Text text1("PRESS 1",font_game,8);
-    text1.setPosition(20,55);
-    sf::Text text2("PRESS 2",font_game,8);
-    text2.setPosition(20,75);
-    sf::Text text3("PRESS 3",font_game,8);
-    text3.setPosition(20,95);
-    sf::Text text4("PRESS 4",font_game,8);
-    text4.setPosition(20,115);
+    //Phase 0
+
+    sf::Text phase_0_press1("PRESS 1",font_game,8);
+    phase_0_press1.setPosition(20,55);
+    sf::Text phase_0_press2("PRESS 2",font_game,8);
+    phase_0_press2.setPosition(20,75);
+    sf::Text phase_0_press3("PRESS 3",font_game,8);
+    phase_0_press3.setPosition(20,95);
+    sf::Text phase_0_press4("PRESS 4",font_game,8);
+    phase_0_press4.setPosition(20,115);
+    
+
+    //Phase 01
+
+    sf::Text phase_01_choose("Choisissez un personnage pour attaquer : ",font_game,10);
+    phase_01_choose.setFillColor(sf::Color::Black);
+    phase_01_choose.setPosition(20,50);
+    sf::Text phase_01_nom("vide",font_game,8);
+    phase_01_nom.setFillColor(sf::Color::Black);
+
+    Allie poubelle2("Poubelle",100,10,50,50,"Images/poubelle2.png");
+
+
+    string phases = "0";
+    
+    
+    
 
     while(1){
-        sf::Event event;
 
-        while(window.pollEvent(event))
-        {
-            if(event.type == sf::Event::Closed)
+        //std::cout << "map sprite position :" << map.getSpriteCombat().getPosition().x << map.getSpriteCombat().getPosition().y << std::endl; 
+
+        sf::Event event_combat;
+        while(window.pollEvent(event_combat)){
+             window.draw(sprite_map);
+             window.draw(perso1.getSprite());
+             window.draw(perso2.getSprite());
+             window.draw(perso2.getLifeBar());
+            if(event_combat.type == sf::Event::Closed)
             {
                 window.close();
                 return true;
             }
+            if(phases == "0"){
+                //  cout << "0" << endl;
+                if(event_combat.type == sf::Event::KeyPressed){
+                    if(event_combat.key.code == sf::Keyboard::Num1){
+                        phases += "1";
+                        cout << "PHASES :" << phases << endl;
+                    }
+                    if(event_combat.key.code == sf::Keyboard::Num2){
+                        phases += "2";
+                        cout << "PHASES :" << phases << endl;
+                    }
+                    if(event_combat.key.code == sf::Keyboard::Num3){
+                        phases += "3";
+                        cout << "PHASES :" << phases << endl;
+                    }
+                    if(event_combat.key.code == sf::Keyboard::Num4){
+                        phases += "4";
+                        cout << "PHASES :" << phases << endl;
+                    }
+                }
+
+                window.draw(phase_0_press1);
+                window.draw(phase_0_press2);
+                window.draw(phase_0_press3);
+                window.draw(phase_0_press4);
+                window.draw(sprite_combat_action_menu);
+            }
+            if(phases == "01"){
+
+                // if(event_combat.key.code == sf::Keyboard::Num1){
+
+                //         phases += "1";
+                        
+                // }
+                // if(event_combat.key.code == sf::Keyboard::Num2){
+                //     phases += "2";
+                //     cout << "PHASES :" << phases << endl;
+                // }
+                // if(event_combat.key.code == sf::Keyboard::Num3){
+                //     phases += "3";
+                //     cout << "PHASES :" << phases << endl;
+                // }
+                // if(event_combat.key.code == sf::Keyboard::Num4){
+                //     phases += "4";
+                //     cout << "PHASES :" << phases << endl;
+                // }
+                // window.draw(poubelle2.getSprite());
+                window.draw(phase_01_choose);
+                for(size_t i=0;i<perso1.getAllAllies().size();i++){
+                    phase_01_nom.setString("PRESS "+ to_string(i+1) +" pour : "+perso1.getAllie(i).getNom());
+                    phase_01_nom.setPosition(phase_01_choose.getPosition().x,phase_01_choose.getPosition().y+(i+1)*30);
+                    window.draw(phase_01_nom);
+                }
+            } 
+            
+            for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+                 window.draw(perso1.getAllie(i).getSprite());
+                 perso1.getAllie(i).getLifeBar().setSize(sf::Vector2f(perso1.getAllie(i).getHP()/2,5));
+                 window.draw(perso1.getAllie(i).getLifeBar());
+            }
+
+             cout << "PHASE : " << phases << endl;
+             window.display();
+             window.clear();
+
         }
 
-        //std::cout << "map sprite position :" << map.getSpriteCombat().getPosition().x << map.getSpriteCombat().getPosition().y << std::endl; 
-
-        window.clear();
-        window.draw(sprite_map);
-        window.draw(perso1.getSprite());
-        window.draw(perso2.getSprite());
-        window.draw(perso2.getLifeBar());
-        window.draw(text1);
-        window.draw(text2);
-        window.draw(text3);
-        window.draw(text4);
-        window.draw(sprite_combat_action_menu);
-        
-        // for(size_t i;i<perso1.getAllAllies().size();i++){
-        //     window.draw(perso1.getAllie(i).getSprite());
-        // }
-
-
-        window.display();
+    
         //std::cout << "voucle inf" << std::endl;
-
     }
     return false;
 }

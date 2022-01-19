@@ -103,7 +103,7 @@ class Maitre : public Personnage
         Maitre(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
 
         vector<Allie> getAllAllies(){return perso_allies;};
-        Allie getAllie(size_t indice){return perso_allies[indice];};
+        Allie& getAllie(size_t indice){return perso_allies[indice];};
 
         void addAllie(Allie &allie){perso_allies.push_back(allie);};
         void attaquer(Allie &cible){};

@@ -42,31 +42,16 @@ void Game::run(vector<Map> maps)
 
     // Creation des allies
 
-    Allie poubelle("Poubelle",100,10,200,250,"Images/poubelle2.png");
-    //poubelle.setPosition(150,650);  
-    vector<Allie> vector_poubelle;
-    vector_poubelle.push_back(Allie("Poubelle",100,10,600,500,"Images/poubelle2.png"));
-    vector_poubelle.push_back(poubelle);
-    cout << "ICI1" << endl;
+    Allie poubelle("Poubelle",100,10,360,240,"Images/poubelle2.png");
+    Allie eolienne("Eolienne",100,10,220,240,"Images/wind-turbine.png");
+    Allie panneau("Panneau",100,10,580,240,"Images/solar-pannel.png");
 
-    //joueur.addAllie(poubelle);
-    
-
-
-
-    // cout << "NAME 0" << joueur.getAllie(0).getNom() << endl;
-    // joueur.addAllie(Allie("Eolienne",100,10,250,230,"Images/wind-turbine.png"));
-    // joueur.addAllie(Allie("Panneau",100,10,300,230,"Images/solar-pannel.png"));
-
-    // sf::Sprite Sprite_poubelle = joueur.getAllie(0).getSprite();
-    // Creation des bars de vie
+    joueur.addAllie(poubelle);
+    joueur.addAllie(eolienne);
+    joueur.addAllie(panneau);
 
     
 
-    // Creation des items
-
-    Arme epee_perso("Epée",0,20,0,true,"Images/épée_1.png");
-    sf::Sprite sprite_arme_perso = epee_perso.getSprite();
 
     // Creation du texte de combat
 
@@ -202,7 +187,7 @@ void Game::run(vector<Map> maps)
             }
             window.draw(sprite_joueur);
             
-            window.draw(vector_poubelle[0].getSprite());
+            // window.draw();
             window.display();
         }
     }
