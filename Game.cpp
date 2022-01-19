@@ -111,23 +111,24 @@ void Game::run(vector<Map> maps)
             {
                 if (!en_combat)
                 {
-                    if (event.key.code == sf::Keyboard::Up && joueur.getY() > 0)
+                    if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 10)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
                     }
-                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() < 599)
+                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 589)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()+10);
                     }
-                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() > 0)
+                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 10)
                     {
                         joueur.setPosition(joueur.getX()-10,joueur.getY());
                     }
-                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() < 799)
+                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 789)
                     {
                         joueur.setPosition(joueur.getX()+10,joueur.getY());
                     }
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());
+                    std::cout << "Position" << joueur.getX() << " " << joueur.getY() << std::endl;
                 }
             }
             
