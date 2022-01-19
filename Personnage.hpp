@@ -73,11 +73,13 @@ class Allie : public Personnage
         Allie(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path);
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
+        sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
         void attaquer(Ennemi &cible);
         void attaquer(Allie &cible){};
     
     protected:
         sf::RectangleShape lifebar_perso;
+        sf::RectangleShape lifebar_background;
 
 };
 
@@ -88,12 +90,14 @@ class Ennemi : public Personnage
         Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
+        sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
 
         void attaquer(Allie &cible);
         void attaquer(Ennemi &cible){};
 
     protected:
         sf::RectangleShape lifebar_perso;
+        sf::RectangleShape lifebar_background;
 };
 
 class Maitre : public Personnage

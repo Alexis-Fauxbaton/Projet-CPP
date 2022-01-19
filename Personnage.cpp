@@ -75,6 +75,10 @@ Allie::Allie(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, s
 {
     lifebar_perso.setFillColor(sf::Color::Red);
     lifebar_perso.setPosition(150,230);
+    lifebar_perso.setSize(sf::Vector2f(vie/2,5));
+    lifebar_background.setFillColor(sf::Color::Black);
+    lifebar_background.setPosition(150,230);
+    lifebar_background.setSize(sf::Vector2f(vie/2,5));
 }
 
 void Allie::attaquer(Ennemi &cible)
@@ -86,6 +90,10 @@ Ennemi::Ennemi(std::string nom, int vie, int force, size_t x_coor,size_t y_coor,
 {
     lifebar_perso.setFillColor(sf::Color::Red);
     lifebar_perso.setPosition(150,230);
+    lifebar_perso.setSize(sf::Vector2f(vie/2,5));
+    lifebar_background.setFillColor(sf::Color::Black);
+    lifebar_background.setPosition(150,230);
+    lifebar_background.setSize(sf::Vector2f(vie/2,5));
 }
 
 

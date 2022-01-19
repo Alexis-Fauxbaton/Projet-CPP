@@ -11,6 +11,78 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Audio.hpp>
+#include <unistd.h>
+
+
+
+void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,Map &maps){
+
+
+   int initial_allie_position = allie.getSprite().getPosition().x;
+    while(abs(allie.getSprite().getPosition().x - ennemi.getSprite().getPosition().x)>10){
+
+         allie.getSprite().setPosition(allie.getSprite().getPosition().x+3,allie.getSprite().getPosition().y);
+         //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
+
+         window.draw(maps.getSpriteCombat());
+         window.draw(perso1.getSprite());
+         window.draw(ennemi.getSprite());
+         window.draw(ennemi.getLifeBarBackground());
+         window.draw(ennemi.getLifeBar());
+
+         for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+             if(perso1.getAllie(i).getNom() != allie.getNom()){
+                 window.draw(perso1.getAllie(i).getSprite());
+                 window.draw(perso1.getAllie(i).getLifeBarBackground());
+                 window.draw(perso1.getAllie(i).getLifeBar());
+                 
+             }
+         }
+         window.draw(allie.getSprite());
+         window.display();
+         window.clear();
+    }
+
+
+    sf::SoundBuffer default_buffer;
+    default_buffer.loadFromFile("Sound/attack-sound-effect-new-yorker (mp3cut.net).wav");
+    sf::Sound music(default_buffer);
+
+    music.play();
+    sleep(1);
+    allie.attaquer(ennemi);
+    ennemi.getLifeBar().setSize(sf::Vector2f(ennemi.getHP()/2,5));
+
+
+    while(abs(allie.getSprite().getPosition().x - initial_allie_position)>=3){
+        allie.getSprite().setPosition(allie.getSprite().getPosition().x-3,allie.getSprite().getPosition().y);
+
+        window.draw(maps.getSpriteCombat());
+         window.draw(perso1.getSprite());
+         window.draw(ennemi.getSprite());
+         window.draw(ennemi.getLifeBarBackground());
+         window.draw(ennemi.getLifeBar());
+         
+         for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+             if(perso1.getAllie(i).getNom() != allie.getNom()){
+                 window.draw(perso1.getAllie(i).getSprite());
+                 window.draw(perso1.getAllie(i).getLifeBarBackground());
+                 window.draw(perso1.getAllie(i).getLifeBar());
+                
+             }
+         }
+         window.draw(allie.getSprite());
+         window.display();
+         window.clear();
+
+    }
+    
+    
+    
+}
+
+
+
 
 using namespace std;
 
@@ -48,13 +120,14 @@ bool Combat::commencer(sf::RenderWindow &window){
     for(size_t i= 0;i<perso1.getAllAllies().size();i++){
         perso1.getAllie(i).getLifeBar().setFillColor(sf::Color::Red);
         perso1.getAllie(i).getLifeBar().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-10);
-        perso1.getAllie(i).getLifeBar().setSize(sf::Vector2f(perso1.getAllie(i).getHP()/2,5));
+        perso1.getAllie(i).getLifeBarBackground().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-10);
     }
 
 
     perso2.getLifeBar().setFillColor(sf::Color::Red);
     perso2.getLifeBar().setPosition(650,245);
     perso2.getLifeBar().setSize(sf::Vector2f(50,5));
+    perso2.getLifeBarBackground().setPosition(perso2.getLifeBar().getPosition().x,perso2.getLifeBar().getPosition().y);
 
     cout << "lifebar position x : " << perso2.getLifeBar().getPosition().x << endl;
 
@@ -108,7 +181,9 @@ bool Combat::commencer(sf::RenderWindow &window){
              window.draw(sprite_map);
              window.draw(perso1.getSprite());
              window.draw(perso2.getSprite());
+             window.draw(perso2.getLifeBarBackground());
              window.draw(perso2.getLifeBar());
+             
             if(event_combat.type == sf::Event::Closed)
             {
                 window.close();
@@ -143,24 +218,24 @@ bool Combat::commencer(sf::RenderWindow &window){
             }
             if(phases == "01"){
 
-                // if(event_combat.key.code == sf::Keyboard::Num1){
-
-                //         phases += "1";
+                if(event_combat.key.code == sf::Keyboard::A){
+                    phases += "1";
+                    attaquer_animation(perso1.getAllie(0),perso2,window,perso1,map);
                         
-                // }
-                // if(event_combat.key.code == sf::Keyboard::Num2){
-                //     phases += "2";
-                //     cout << "PHASES :" << phases << endl;
-                // }
-                // if(event_combat.key.code == sf::Keyboard::Num3){
-                //     phases += "3";
-                //     cout << "PHASES :" << phases << endl;
-                // }
-                // if(event_combat.key.code == sf::Keyboard::Num4){
-                //     phases += "4";
-                //     cout << "PHASES :" << phases << endl;
-                // }
-                // window.draw(poubelle2.getSprite());
+                }
+                if(event_combat.key.code == sf::Keyboard::B){
+                    phases += "2";
+                    
+                }
+                if(event_combat.key.code == sf::Keyboard::C){
+                    phases += "3";
+                    
+                }
+                if(event_combat.key.code == sf::Keyboard::D){
+                    phases += "4";
+                    
+                }
+                window.draw(poubelle2.getSprite());
                 window.draw(phase_01_choose);
                 for(size_t i=0;i<perso1.getAllAllies().size();i++){
                     phase_01_nom.setString("PRESS "+ to_string(i+1) +" pour : "+perso1.getAllie(i).getNom());
@@ -171,11 +246,12 @@ bool Combat::commencer(sf::RenderWindow &window){
             
             for(size_t i = 0;i<perso1.getAllAllies().size();i++){
                  window.draw(perso1.getAllie(i).getSprite());
-                 perso1.getAllie(i).getLifeBar().setSize(sf::Vector2f(perso1.getAllie(i).getHP()/2,5));
+                 window.draw(perso1.getAllie(i).getLifeBarBackground());
                  window.draw(perso1.getAllie(i).getLifeBar());
+                 
             }
 
-             cout << "PHASE : " << phases << endl;
+             //  cout << "PHASE : " << phases << endl;
              window.display();
              window.clear();
 
