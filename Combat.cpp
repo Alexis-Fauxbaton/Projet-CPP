@@ -81,6 +81,66 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     
 }
 
+void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,Map &maps){
+
+
+   int initial_ennemi_position = ennemi.getSprite().getPosition().x;
+    while(abs(ennemi.getSprite().getPosition().x - allie.getSprite().getPosition().x)>10){
+
+         ennemi.getSprite().setPosition(ennemi.getSprite().getPosition().x-3,ennemi.getSprite().getPosition().y);
+         //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
+
+         window.draw(maps.getSpriteCombat());
+         window.draw(perso1.getSprite());
+
+
+         for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+            window.draw(perso1.getAllie(i).getSprite());
+            window.draw(perso1.getAllie(i).getLifeBarBackground());
+            window.draw(perso1.getAllie(i).getLifeBar());
+                 
+             
+         }
+         window.draw(ennemi.getSprite());
+         window.display();
+         window.clear();
+    }
+
+
+    sf::SoundBuffer default_buffer;
+    default_buffer.loadFromFile("Sound/attack-sound-effect-new-yorker (mp3cut.net).wav");
+    sf::Sound music(default_buffer);
+
+    music.play();
+    sleep(1);
+    ennemi.attaquer(allie);
+    allie.getLifeBar().setSize(sf::Vector2f(allie.getHP()/2,5));
+
+
+    while(abs(ennemi.getSprite().getPosition().x - initial_ennemi_position)>=3){
+        ennemi.getSprite().setPosition(ennemi.getSprite().getPosition().x+3,ennemi.getSprite().getPosition().y);
+
+         window.draw(maps.getSpriteCombat());
+         window.draw(perso1.getSprite());
+         
+         for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+             
+            window.draw(perso1.getAllie(i).getSprite());
+            window.draw(perso1.getAllie(i).getLifeBarBackground());
+            window.draw(perso1.getAllie(i).getLifeBar());
+                  
+         }
+         window.draw(ennemi.getSprite());
+         window.display();
+         window.clear();
+
+    }
+    
+    
+    
+}
+
+
 
 
 
@@ -144,33 +204,33 @@ bool Combat::commencer(sf::RenderWindow &window){
     sf::Font font_game;
     font_game.loadFromFile("Fonts/game_font.TTF");
 
-    //Phase 0
-
-    sf::Text phase_0_press1("PRESS 1",font_game,8);
-    phase_0_press1.setPosition(20,55);
-    sf::Text phase_0_press2("PRESS 2",font_game,8);
-    phase_0_press2.setPosition(20,75);
-    sf::Text phase_0_press3("PRESS 3",font_game,8);
-    phase_0_press3.setPosition(20,95);
-    sf::Text phase_0_press4("PRESS 4",font_game,8);
-    phase_0_press4.setPosition(20,115);
-    
-
     //Phase 01
 
-    sf::Text phase_01_choose("Choisissez un personnage pour attaquer : ",font_game,10);
-    phase_01_choose.setFillColor(sf::Color::Black);
-    phase_01_choose.setPosition(20,50);
-    sf::Text phase_01_nom("vide",font_game,8);
-    phase_01_nom.setFillColor(sf::Color::Black);
-
-    Allie poubelle2("Poubelle",100,10,50,50,"Images/poubelle2.png");
-
-
-    string phases = "0";
+    sf::Text phase_01_press1("PRESS 1",font_game,8);
+    phase_01_press1.setPosition(20,55);
+    sf::Text phase_01_press2("PRESS 2",font_game,8);
+    phase_01_press2.setPosition(20,75);
+    sf::Text phase_01_press3("PRESS 3",font_game,8);
+    phase_01_press3.setPosition(20,95);
+    sf::Text phase_01_press4("PRESS 4",font_game,8);
+    phase_01_press4.setPosition(20,115);
     
+
+    //Phase 0
+
+    sf::Text phase_0_choose("Tour de : ",font_game,14);
+    phase_0_choose.setFillColor(sf::Color::Black);
+    phase_0_choose.setPosition(250,50);
     
-    
+
+    // Allie turn
+
+    size_t allie_turn = 0;
+    int phase = 0;
+    int mort;
+    int action = 0;
+
+
 
     while(1){
 
@@ -178,71 +238,92 @@ bool Combat::commencer(sf::RenderWindow &window){
 
         sf::Event event_combat;
         while(window.pollEvent(event_combat)){
+
+            cout << "DEBUT" << endl;
              window.draw(sprite_map);
              window.draw(perso1.getSprite());
              window.draw(perso2.getSprite());
              window.draw(perso2.getLifeBarBackground());
              window.draw(perso2.getLifeBar());
              
-            if(event_combat.type == sf::Event::Closed)
+
+            mort = 1;
+            for(size_t i = 0;i < perso1.getAllAllies().size();i++){
+                if(!perso1.getAllie(i).estMort()){
+                    mort = 0;
+                    break;
+                }
+            }
+
+            if(event_combat.type == sf::Event::Closed || mort == 1 || perso2.estMort())
             {
                 window.close();
                 return true;
             }
-            if(phases == "0"){
-                //  cout << "0" << endl;
+
+            
+
+            if(phase == 0){
+
+                window.draw(phase_01_press1);
+                window.draw(phase_01_press2);
+                window.draw(phase_01_press3);
+                window.draw(phase_01_press4);
+                window.draw(sprite_combat_action_menu);
+                phase_0_choose.setString(phase_0_choose.getString()+perso1.getAllie(allie_turn).getNom());
+                window.draw(phase_0_choose);
+
+                cout << "ICI PHASE 0" << endl;
+
                 if(event_combat.type == sf::Event::KeyPressed){
+                    action = 1;
                     if(event_combat.key.code == sf::Keyboard::Num1){
-                        phases += "1";
-                        cout << "PHASES :" << phases << endl;
+                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,map);
+
                     }
                     if(event_combat.key.code == sf::Keyboard::Num2){
-                        phases += "2";
-                        cout << "PHASES :" << phases << endl;
+                        
                     }
                     if(event_combat.key.code == sf::Keyboard::Num3){
-                        phases += "3";
-                        cout << "PHASES :" << phases << endl;
+                        
                     }
                     if(event_combat.key.code == sf::Keyboard::Num4){
-                        phases += "4";
-                        cout << "PHASES :" << phases << endl;
+                       
                     }
                 }
-
-                window.draw(phase_0_press1);
-                window.draw(phase_0_press2);
-                window.draw(phase_0_press3);
-                window.draw(phase_0_press4);
-                window.draw(sprite_combat_action_menu);
-            }
-            if(phases == "01"){
-
-                if(event_combat.key.code == sf::Keyboard::A){
-                    phases += "1";
-                    attaquer_animation(perso1.getAllie(0),perso2,window,perso1,map);
-                        
-                }
-                if(event_combat.key.code == sf::Keyboard::B){
-                    phases += "2";
+                if(action == 1){
+                    if(allie_turn < perso1.getAllAllies().size()-1){
+                        allie_turn += 1;
+                    }
+                    else{
+                        phase = 1;
+                        allie_turn = 0;
+                    }
                     
                 }
-                if(event_combat.key.code == sf::Keyboard::C){
-                    phases += "3";
-                    
-                }
-                if(event_combat.key.code == sf::Keyboard::D){
-                    phases += "4";
-                    
-                }
-                window.draw(poubelle2.getSprite());
-                window.draw(phase_01_choose);
-                for(size_t i=0;i<perso1.getAllAllies().size();i++){
-                    phase_01_nom.setString("PRESS "+ to_string(i+1) +" pour : "+perso1.getAllie(i).getNom());
-                    phase_01_nom.setPosition(phase_01_choose.getPosition().x,phase_01_choose.getPosition().y+(i+1)*30);
-                    window.draw(phase_01_nom);
-                }
+                action = 0;
+                
             } 
+            
+            else if(phase == 1 && !perso2.estMort()){
+                
+                cout << "PHASE COMBAT LAAA" << endl;
+                
+                int cible = perso1.getAllAllies().size() - 1;
+                while(1){
+                    if(perso1.getAllie(cible).estMort()){
+                        cible = cible - 1;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                attaquer_animation2(perso1.getAllie(cible),perso2,window,perso1,map);
+                phase = 0;
+                
+
+
+            }
             
             for(size_t i = 0;i<perso1.getAllAllies().size();i++){
                  window.draw(perso1.getAllie(i).getSprite());
