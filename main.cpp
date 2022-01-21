@@ -16,7 +16,7 @@
 
 int main()
 {
-    vector<Map> maps;
+    vector<Map*> maps;
     vector<Ennemi> ennemis;
     Porte porte_nord();
     
@@ -27,45 +27,57 @@ int main()
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
     }
 
+    std::cout << "Here1" << std::endl;
+
     map1.setEnnemis(ennemis);
 
     ennemis.clear();
 
-    maps.push_back(map1);
+//    maps.push_back(&map1);
 
-    Map map2 = Map(vector<Ennemi>(), false, false, "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&maps[0]);
+    Map map2 = Map(vector<Ennemi>(), false, false, "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&map1);
 
     for (size_t i = 0;i < 3;i++)
     {
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,200,"Images/poubelle2.png"));
     }
 
+    std::cout << "Here2" << std::endl;
+
     map2.setEnnemis(ennemis);
 
     ennemis.clear();
 
-    maps.push_back(map2);
+//    maps.push_back(&map2);
 
-    maps[0].setMapNord(&maps[1]);
+    map1.setMapNord(&map2);
 
-    maps[1].setMapSud(&maps[0]);
+    map2.setMapSud(&map1);
 
-    Map map_boss = Map(vector<Ennemi>(), false, false, "Images/Boss_map_R.png", "Images/Boss_combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&maps[1]);
+    Map map_boss = Map(vector<Ennemi>(), false, false, "Images/Boss_map_R.png", "Images/Boss_combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(380,420,590,590,Cardinalite::SOUTH),NULL,&map2);
 
-    for (size_t i = 0;i < 3;i++)
+/*    for (size_t i = 0;i < 3;i++)
     {
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*80,300,"Images/poubelle2.png"));
     }
 
-    map_boss.setEnnemis(ennemis);
+    map_boss.setEnnemis(ennemis);*/
 
-    ennemis.clear();
 
-    maps.push_back(map_boss);
+//    ennemis.clear();
 
-    maps[1].setMapNord(&maps[2]);
+//    maps.push_back(&map_boss);
 
-    maps[2].setMapSud(&maps[1]);
+    std::cout << "Here" << std::endl;
+
+    map2.setMapNord(&map_boss);
+    map2.setPorteNord(Porte(300,380,0,0,Cardinalite::NORTH));
+    map_boss.setMapSud(&map2);
+    maps.push_back(&map1);
+    maps.push_back(&map2);
+    maps.push_back(&map_boss);
+    std::cout << "Maps chargées" << std::endl;
+
 
     Game jeu;
     jeu.run(maps);

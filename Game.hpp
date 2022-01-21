@@ -24,7 +24,7 @@ class Game
     public:
         Game():en_cours(true){}
         ~Game(){};
-        void run(vector<Map> maps);
+        void run(vector<Map*> maps);
 
     private:
         bool en_cours;

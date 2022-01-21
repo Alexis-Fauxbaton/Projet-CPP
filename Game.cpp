@@ -15,9 +15,9 @@
 
 using namespace std;
 
-void Game::run(vector<Map> maps)
+void Game::run(vector<Map*> maps)
 {
-    Map* map_actuelle = &maps[0];
+    Map* map_actuelle = maps[0];
     bool switched = true;
     int map_index = 0;
     int combat_index = 0;
@@ -168,7 +168,7 @@ void Game::run(vector<Map> maps)
             cout << "Map position 1 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             map_actuelle->getSpriteCombat().setPosition(20,20);
             cout << "Map position 2 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
-            Combat combat(joueur,ennemis[combat_index],maps[map_index]);
+            Combat combat(joueur,ennemis[combat_index],*maps[map_index]);
             if (combat.commencer(window,music_combat))
             {
                 ennemis.erase(ennemis.begin()+combat_index);

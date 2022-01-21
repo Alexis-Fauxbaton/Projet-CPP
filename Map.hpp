@@ -28,10 +28,10 @@ class Map
         void setSprite(sf::Sprite sprite){this->sprite=sprite;}
         void setSpriteCombat(sf::Sprite sprite){this->sprite_combat=sprite;}
         void setSpriteCombatPosition(size_t x, size_t y){sprite_combat.setPosition(x,y);}
-        sf::Sprite getSprite(){return sprite;}
-        sf::Sprite getSpriteCombat(){return sprite_combat;}
-        sf::Texture getTexture(){return texture;}
-        sf::Texture getTextureCombat(){return texture_combat;}
+        sf::Sprite& getSprite(){return sprite;}
+        sf::Sprite& getSpriteCombat(){return sprite_combat;}
+        sf::Texture& getTexture(){return texture;}
+        sf::Texture& getTextureCombat(){return texture_combat;}
         sf::SoundBuffer& getBufferMain(){return buffer_main;}
         sf::SoundBuffer& getBufferCombat(){return buffer_combat;}
         void setPorteNord(Porte porte_nord){this->porte_nord=porte_nord;}
