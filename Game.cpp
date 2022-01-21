@@ -91,6 +91,7 @@ void Game::run(vector<Map> maps)
                 music.setLoop(true);
                 music.play();
             }
+            music_combat.setBuffer(map_actuelle->getBufferCombat());
             ennemis = map_actuelle->getEnnemis();
             switched = false;
         }
