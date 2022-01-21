@@ -37,14 +37,14 @@ void Game::run(vector<Map> maps)
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
 
-    bool en_combat = false;
+    bool en_combat = false;                         
 
 
     // Creation des allies
 
-    Allie poubelle("Poubelle",100,10,360,240,"Images/poubelle2.png");
-    Allie eolienne("Eolienne",100,10,220,240,"Images/wind-turbine.png");
-    Allie panneau("Panneau",100,10,580,240,"Images/solar-pannel.png");
+    Allie poubelle("Poubelle",100,40,360,240,"Images/poubelle2.png");
+    Allie eolienne("Eolienne",100,40,220,240,"Images/wind-turbine.png");
+    Allie panneau("Panneau",100,40,580,240,"Images/solar-pannel.png");
 
     joueur.addAllie(poubelle);
     joueur.addAllie(eolienne);
@@ -59,7 +59,16 @@ void Game::run(vector<Map> maps)
 
     // Item sprite
 
-    sf::Sprite spirte_arme_perso = joueur.getEquipement().getArme().getSprite();
+    sf::Texture armure_texture;
+    armure_texture.loadFromFile("Images/épée_4.png");
+    sf::Sprite armure_sprite(armure_texture);
+    armure_sprite.setPosition(250,200);
+
+    Arme epee1("épée 1",0,20,0,true,"Images/épée_1.png");
+
+    joueur.getAllie(0).getEquipement().setArme(epee1);
+    joueur.getAllie(0).getEquipement().getArme().getSprite().setPosition(300,200);
+    
 
     cout << "ICI2" << endl;
 
@@ -69,6 +78,8 @@ void Game::run(vector<Map> maps)
     sf::Sound music(default_buffer);
     music.setLoop(true);
     music.play();
+
+    sf::Sound music_combat(map_actuelle->getBufferCombat());
 
     while(1)
     {
@@ -119,20 +130,27 @@ void Game::run(vector<Map> maps)
         if(en_combat)
         {
 
-            music.setBuffer(map_actuelle->getBufferCombat());
-            music.setLoop(true);
-            music.play();
+            music.stop();
+            music_combat.setLoop(true);
+            music_combat.play();
             cout << "Map position 1 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             map_actuelle->getSpriteCombat().setPosition(20,20);
             cout << "Map position 2 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             Combat combat(joueur,ennemis[combat_index],maps[map_index]);
-            if (combat.commencer(window))
+            if (combat.commencer(window,music_combat))
             {
-                window.close();
-                return;
-            }
+                ennemis.erase(ennemis.begin()+combat_index);
+                
+                
 
+            }
+            else{
+                // Cas ou on perd
+            }
+            music.play();
             en_combat = false;
+            
+
         }
         else
         {
@@ -184,7 +202,9 @@ void Game::run(vector<Map> maps)
             {
                 window.draw(ennemis[i].getSprite());
             }
+            window.draw(epee1.getSprite());
             window.draw(sprite_joueur);
+            
             
             // window.draw();
             window.display();

@@ -24,7 +24,7 @@ class Combat{
     
         Combat(Maitre &_P1, Ennemi &_P2,Map& _map);
         
-        bool commencer(sf::RenderWindow &window);
+        bool commencer(sf::RenderWindow &window,sf::Sound &music);
 
     private:
         Maitre perso1;

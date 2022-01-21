@@ -24,7 +24,7 @@ class Objet
         int getAtk(){return atk;}
         int getDef(){return def;}
         bool getEquipe(){return estEquipe;}
-        sf::Sprite getSprite(){return sprite_objet;};
+        sf::Sprite &getSprite(){return sprite_objet;};
         Objet operator=(const Objet &objet);
 
     private://A modifier pour rendre heritage possible si besoin 

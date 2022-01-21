@@ -51,7 +51,13 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     music.play();
     sleep(1);
     allie.attaquer(ennemi);
-    ennemi.getLifeBar().setSize(sf::Vector2f(ennemi.getHP()/2,5));
+    if(!ennemi.estMort()){
+        ennemi.getLifeBar().setSize(sf::Vector2f(ennemi.getHP()/2,5));
+    }
+    else{
+        ennemi.getLifeBar().setSize(sf::Vector2f(0,5));
+    }
+    
 
 
     while(abs(allie.getSprite().getPosition().x - initial_allie_position)>=3){
@@ -114,7 +120,13 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
     music.play();
     sleep(1);
     ennemi.attaquer(allie);
-    allie.getLifeBar().setSize(sf::Vector2f(allie.getHP()/2,5));
+    if(!allie.estMort()){
+        allie.getLifeBar().setSize(sf::Vector2f(allie.getHP()/2,5));
+    }
+    else{
+        allie.getLifeBar().setSize(sf::Vector2f(0,5));
+    }
+    
 
 
     while(abs(ennemi.getSprite().getPosition().x - initial_ennemi_position)>=3){
@@ -154,7 +166,7 @@ Combat::Combat(Maitre &_P1, Ennemi &_P2,Map& _map)
 }
 
 
-bool Combat::commencer(sf::RenderWindow &window){
+bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
     window.create(sf::VideoMode(800, 400), "Combat");
 
@@ -198,7 +210,6 @@ bool Combat::commencer(sf::RenderWindow &window){
     sprite_combat_action_menu.setPosition(100,30);
 
 
-
     //TEXTE MENU
 
     sf::Font font_game;
@@ -219,8 +230,8 @@ bool Combat::commencer(sf::RenderWindow &window){
     //Phase 0
 
     sf::Text phase_0_choose("Tour de : ",font_game,14);
-    phase_0_choose.setFillColor(sf::Color::Black);
-    phase_0_choose.setPosition(250,50);
+    //  phase_0_choose.setFillColor(sf::Color::Black);
+    phase_0_choose.setPosition(300,130);
     
 
     // Allie turn
@@ -255,7 +266,31 @@ bool Combat::commencer(sf::RenderWindow &window){
                 }
             }
 
-            if(event_combat.type == sf::Event::Closed || mort == 1 || perso2.estMort())
+            if(perso2.estMort()){
+
+                for(size_t i = 0;i<perso1.getAllAllies().size();i++){
+                 window.draw(perso1.getAllie(i).getSprite());
+                 window.draw(perso1.getAllie(i).getLifeBarBackground());
+                 window.draw(perso1.getAllie(i).getLifeBar());
+                 
+                }
+                window.display();
+                
+                music.stop();
+                sf::SoundBuffer victory_buffer;
+                victory_buffer.loadFromFile("Sound/victory-sound-effect.wav");
+                sf::Sound victory_sound(victory_buffer);
+                victory_sound.play();
+                sleep(victory_sound.getBuffer()->getDuration());
+                victory_buffer.loadFromFile("Sound/you-win-street-fighter-sound-effect.wav");
+                victory_sound.setBuffer(victory_buffer);
+                victory_sound.play();
+                sleep(victory_sound.getBuffer()->getDuration());
+                window.create(sf::VideoMode(800, 600), "Game");
+                return true;
+            }
+
+            if(event_combat.type == sf::Event::Closed || mort == 1)
             {
                 window.close();
                 return true;
@@ -272,6 +307,7 @@ bool Combat::commencer(sf::RenderWindow &window){
                 window.draw(sprite_combat_action_menu);
                 phase_0_choose.setString(phase_0_choose.getString()+perso1.getAllie(allie_turn).getNom());
                 window.draw(phase_0_choose);
+                phase_0_choose.setString("Tour de : ");
 
                 cout << "ICI PHASE 0" << endl;
 
@@ -332,9 +368,9 @@ bool Combat::commencer(sf::RenderWindow &window){
                  
             }
 
-             //  cout << "PHASE : " << phases << endl;
              window.display();
              window.clear();
+             
 
         }
 
