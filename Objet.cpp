@@ -8,7 +8,7 @@
 using namespace std;
 
 
-Objet::Objet(std::string nom, int vie, int force, int defense, bool equipe,string texture_path):hp(vie),atk(force),def(defense),nom(nom),estEquipe(equipe){
+Objet::Objet(std::string nom, int vie, int force, int defense, bool equipe,string texture_path):hp(vie),atk(force),def(defense),nom(nom),estEquipe(equipe),chemin_texture(texture_path){
 
     texture_objet.loadFromFile(texture_path);   
     sprite_objet.setTexture(texture_objet);

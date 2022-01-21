@@ -35,6 +35,9 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
                  window.draw(perso1.getAllie(i).getSprite());
                  window.draw(perso1.getAllie(i).getLifeBarBackground());
                  window.draw(perso1.getAllie(i).getLifeBar());
+                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                  
              }
          }
@@ -74,6 +77,9 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
                  window.draw(perso1.getAllie(i).getSprite());
                  window.draw(perso1.getAllie(i).getLifeBarBackground());
                  window.draw(perso1.getAllie(i).getLifeBar());
+                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                 
              }
          }
@@ -104,6 +110,9 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
             window.draw(perso1.getAllie(i).getSprite());
             window.draw(perso1.getAllie(i).getLifeBarBackground());
             window.draw(perso1.getAllie(i).getLifeBar());
+            window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                  
              
          }
@@ -140,6 +149,9 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
             window.draw(perso1.getAllie(i).getSprite());
             window.draw(perso1.getAllie(i).getLifeBarBackground());
             window.draw(perso1.getAllie(i).getLifeBar());
+            window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                   
          }
          window.draw(ennemi.getSprite());
@@ -176,12 +188,12 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                
     // Positionnement allies Personnages
 
-    perso1.getSprite().setPosition(100,240);
+    perso1.getSprite().setPosition(50,240);
     perso2.getSprite().setPosition(650,240);                 
     cout << perso1.getSprite().getPosition().x << endl;
 
     for(size_t i=0;i < perso1.getAllAllies().size();i++){
-        perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+60*(i+1),perso1.getSprite().getPosition().y));
+        perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+100*(i+1),perso1.getSprite().getPosition().y));
     }
                    
     // perso1.getAllie(0).getSprite().setPosition(500,100);
@@ -191,8 +203,8 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
     for(size_t i= 0;i<perso1.getAllAllies().size();i++){
         perso1.getAllie(i).getLifeBar().setFillColor(sf::Color::Red);
-        perso1.getAllie(i).getLifeBar().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-10);
-        perso1.getAllie(i).getLifeBarBackground().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-10);
+        perso1.getAllie(i).getLifeBar().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-5);
+        perso1.getAllie(i).getLifeBarBackground().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-5);
     }
 
 
@@ -201,13 +213,12 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
     perso2.getLifeBar().setSize(sf::Vector2f(50,5));
     perso2.getLifeBarBackground().setPosition(perso2.getLifeBar().getPosition().x,perso2.getLifeBar().getPosition().y);
 
-    cout << "lifebar position x : " << perso2.getLifeBar().getPosition().x << endl;
 
     sf::Texture texture_combat_action_menu;
     sf::Sprite sprite_combat_action_menu;
     texture_combat_action_menu.loadFromFile("Images/combat_action_menu.png");
     sprite_combat_action_menu.setTexture(texture_combat_action_menu);
-    sprite_combat_action_menu.setPosition(100,30);
+    sprite_combat_action_menu.setPosition(100,10);
 
 
     //TEXTE MENU
@@ -218,20 +229,20 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
     //Phase 01
 
     sf::Text phase_01_press1("PRESS 1",font_game,8);
-    phase_01_press1.setPosition(20,55);
+    phase_01_press1.setPosition(20,35);
     sf::Text phase_01_press2("PRESS 2",font_game,8);
-    phase_01_press2.setPosition(20,75);
+    phase_01_press2.setPosition(20,55);
     sf::Text phase_01_press3("PRESS 3",font_game,8);
-    phase_01_press3.setPosition(20,95);
+    phase_01_press3.setPosition(20,75);
     sf::Text phase_01_press4("PRESS 4",font_game,8);
-    phase_01_press4.setPosition(20,115);
+    phase_01_press4.setPosition(20,95);
     
 
     //Phase 0
 
     sf::Text phase_0_choose("Tour de : ",font_game,14);
     //  phase_0_choose.setFillColor(sf::Color::Black);
-    phase_0_choose.setPosition(300,130);
+    phase_0_choose.setPosition(300,100);
     
 
     // Allie turn
@@ -240,6 +251,16 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
     int phase = 0;
     int mort;
     int action = 0;
+
+
+    // SET ITEM POSITIONS
+    for(size_t i = 0;i < perso1.getAllAllies().size();i++){
+        perso1.getAllie(i).getEquipement().getArme().getSprite().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-40);
+        perso1.getAllie(i).getEquipement().getArmure().getSprite().setPosition(perso1.getAllie(i).getSprite().getPosition().x+45,perso1.getAllie(i).getSprite().getPosition().y-40);
+        perso1.getAllie(i).getEquipement().getMystique().getSprite().setPosition(perso1.getAllie(i).getSprite().getPosition().x+20,perso1.getAllie(i).getSprite().getPosition().y-85);
+    }
+        
+
 
 
 
@@ -286,14 +307,15 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 victory_sound.setBuffer(victory_buffer);
                 victory_sound.play();
                 sleep(victory_sound.getBuffer()->getDuration());
-                window.create(sf::VideoMode(800, 600), "Game");
+                
                 return true;
             }
 
             if(event_combat.type == sf::Event::Closed || mort == 1)
             {
-                window.close();
-                return true;
+                music.stop();
+                window.create(sf::VideoMode(800, 600), "Game");
+                return false;
             }
 
             
@@ -365,7 +387,9 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                  window.draw(perso1.getAllie(i).getSprite());
                  window.draw(perso1.getAllie(i).getLifeBarBackground());
                  window.draw(perso1.getAllie(i).getLifeBar());
-                 
+                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
             }
 
              window.display();

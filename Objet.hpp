@@ -25,6 +25,8 @@ class Objet
         int getDef(){return def;}
         bool getEquipe(){return estEquipe;}
         sf::Sprite &getSprite(){return sprite_objet;};
+        sf::Texture &getTexture(){return texture_objet;};
+        string getTexturePath(){return chemin_texture;};
         Objet operator=(const Objet &objet);
 
     private://A modifier pour rendre heritage possible si besoin 
@@ -35,6 +37,7 @@ class Objet
         bool estEquipe;
         sf::Sprite sprite_objet;
         sf::Texture texture_objet;
+        string chemin_texture;
 };
 
 

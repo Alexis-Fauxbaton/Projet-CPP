@@ -23,9 +23,9 @@ class Equipement
         Objet& getArme(){return arme;}
         Objet& getArmure(){return armure;}
         Objet& getMystique(){return mystique;}
-        void setArme(Arme& arme){this->arme=arme;}
-        void setArmure(Armure& armure){this->armure=armure;}
-        void setMystique(Mystique& mystique){this->mystique=mystique;}
+        void setArme(Arme& arme);
+        void setArmure(Armure& armure);
+        void setMystique(Mystique& mystique);
         //void afficher(); Implementation avec IMGUI
 
     private://A modifier pour rendre heritage possible si besoin 

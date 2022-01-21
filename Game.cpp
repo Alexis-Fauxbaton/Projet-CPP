@@ -42,9 +42,9 @@ void Game::run(vector<Map> maps)
 
     // Creation des allies
 
-    Allie poubelle("Poubelle",100,40,360,240,"Images/poubelle2.png");
-    Allie eolienne("Eolienne",100,40,220,240,"Images/wind-turbine.png");
-    Allie panneau("Panneau",100,40,580,240,"Images/solar-pannel.png");
+    Allie poubelle("Poubelle",100,10,360,240,"Images/poubelle2.png");
+    Allie eolienne("Eolienne",100,10,220,240,"Images/wind-turbine.png");
+    Allie panneau("Panneau",100,10,580,240,"Images/solar-pannel.png");
 
     joueur.addAllie(poubelle);
     joueur.addAllie(eolienne);
@@ -57,7 +57,7 @@ void Game::run(vector<Map> maps)
 
     
 
-    // Item sprite
+    // Item Declaration
 
     sf::Texture armure_texture;
     armure_texture.loadFromFile("Images/épée_4.png");
@@ -65,12 +65,40 @@ void Game::run(vector<Map> maps)
     armure_sprite.setPosition(250,200);
 
     Arme epee1("épée 1",0,20,0,true,"Images/épée_1.png");
+    Arme epee2("épée_2",0,20,0,true,"Images/épée_2.png");
+    Arme hache1("hache_1",0,20,0,true,"Images/hache_1.png");
+
+    Armure armure1("armure_1",0,0,20,true,"Images/armure_1.png");
+    Armure bouclier1("bouclier_1",0,0,20,true,"Images/bouclier_1.png");
+    Armure bouclier2("bouclier_2",0,0,20,true,"Images/bouclier_2.png");
+
+    Mystique orbe1("orbe_1",20,0,0,true,"Images/relique_1.png");
+    Mystique orbe2("orbe_2",20,0,0,true,"Images/relique_2.png");
+    Mystique orbe3("orbe_3",20,0,0,true,"Images/relique_3.png");
+
 
     joueur.getAllie(0).getEquipement().setArme(epee1);
-    joueur.getAllie(0).getEquipement().getArme().getSprite().setPosition(300,200);
+    joueur.getAllie(0).getEquipement().setArmure(armure1);
+    joueur.getAllie(0).getEquipement().setMystique(orbe1);
+
+    joueur.getAllie(1).getEquipement().setArme(epee2);
+    joueur.getAllie(1).getEquipement().setArmure(bouclier1);
+    joueur.getAllie(1).getEquipement().setMystique(orbe2);
+
+    joueur.getAllie(2).getEquipement().setArme(hache1);
+    joueur.getAllie(2).getEquipement().setArmure(bouclier2);
+    joueur.getAllie(2).getEquipement().setMystique(orbe3);
+
+
+
+    
+    // sf::Sprite sprite_epee = joueur.getAllie(0).getEquipement().getArme().getSprite()é;
+    // sprite_epee.setTexture(armure_texture);
     
 
     cout << "ICI2" << endl;
+    size_t back_x = 0;
+    size_t back_y = 0;
 
     sf::SoundBuffer default_buffer;
     default_buffer.loadFromFile("Sound/pokemon_eterna_forest.wav");
@@ -108,6 +136,8 @@ void Game::run(vector<Map> maps)
             {
                 if (!en_combat)
                 {
+                    back_x = joueur.getX();
+                    back_y = joueur.getY();
                     if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 10)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
@@ -124,6 +154,7 @@ void Game::run(vector<Map> maps)
                     {
                         joueur.setPosition(joueur.getX()+10,joueur.getY());
                     }
+                    
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());                }
             }
             
@@ -146,7 +177,9 @@ void Game::run(vector<Map> maps)
 
             }
             else{
-                // Cas ou on perd
+                joueur.setPosition(back_x,back_y);
+                sprite_joueur.setPosition(back_x,back_y);
+                // joueur.getSprite().setPosition(back_x,back_y);
             }
             music.play();
             en_combat = false;
@@ -203,7 +236,7 @@ void Game::run(vector<Map> maps)
             {
                 window.draw(ennemis[i].getSprite());
             }
-            window.draw(epee1.getSprite());
+            window.draw(joueur.getAllie(0).getEquipement().getArme().getSprite());
             window.draw(sprite_joueur);
             
             
