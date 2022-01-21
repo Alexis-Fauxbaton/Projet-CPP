@@ -15,7 +15,7 @@
 
 
 
-void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map){
+void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map, sf::Sprite sprite_cage){
 
 
    int initial_allie_position = allie.getSprite().getPosition().x;
@@ -29,6 +29,9 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
          window.draw(ennemi.getSprite());
          window.draw(ennemi.getLifeBarBackground());
          window.draw(ennemi.getLifeBar());
+         window.draw(ennemi.getPrisonnier().getSprite());
+         if (ennemi.getloot_allie())
+            window.draw(sprite_cage);
 
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
              if(perso1.getAllie(i).getNom() != allie.getNom()){
@@ -74,6 +77,9 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
          window.draw(ennemi.getSprite());
          window.draw(ennemi.getLifeBarBackground());
          window.draw(ennemi.getLifeBar());
+         window.draw(ennemi.getPrisonnier().getSprite());
+         if (ennemi.getloot_allie())
+         window.draw(sprite_cage);
          
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
              if(perso1.getAllie(i).getNom() != allie.getNom()){
@@ -96,7 +102,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     
 }
 
-void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map){
+void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map, sf::Sprite sprite_cage){
 
 
    int initial_ennemi_position = ennemi.getSprite().getPosition().x;
@@ -107,6 +113,9 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
 
          window.draw(sprite_map);
          window.draw(perso1.getSprite());
+         window.draw(ennemi.getPrisonnier().getSprite());
+         if (ennemi.getloot_allie())
+            window.draw(sprite_cage);
 
 
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
@@ -144,6 +153,9 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
 
          window.draw(sprite_map);
          window.draw(perso1.getSprite());
+         window.draw(ennemi.getPrisonnier().getSprite());
+         if (ennemi.getloot_allie())
+            window.draw(sprite_cage);
          
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
              
@@ -300,6 +312,12 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                  window.draw(perso1.getAllie(i).getLifeBar());
                  
                 }
+
+                window.draw(perso2.getPrisonnier().getSprite());
+                if(perso2.getloot_allie()){
+                    window.draw(sprite_cage);
+                }
+
                 window.display();
                 
                 music.stop();
@@ -342,7 +360,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 if(event_combat.type == sf::Event::KeyPressed){
                     action = 1;
                     if(event_combat.key.code == sf::Keyboard::Num1){
-                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,sprite_map);
+                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,sprite_map,sprite_cage);
 
                     }
                     if(event_combat.key.code == sf::Keyboard::Num2){
@@ -382,7 +400,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                         break;
                     }
                 }
-                attaquer_animation2(perso1.getAllie(cible),perso2,window,perso1,sprite_map);
+                attaquer_animation2(perso1.getAllie(cible),perso2,window,perso1,sprite_map,sprite_cage);
                 phase = 0;
 
             }

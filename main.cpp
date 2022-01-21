@@ -20,9 +20,8 @@ int main()
     vector<Ennemi> ennemis;
     Porte porte_nord();
     
-    Map map1 = Map(vector<Ennemi>(), false, false, "Images/Forest_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(363,489,0,0,Cardinalite::NORTH),Porte(-10,-10,-10,-10,Cardinalite::SOUTH),NULL,NULL);     
+    Map map1 = Map(vector<Ennemi>(), false, false, "Images/Forest_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(750,750,374,590,Cardinalite::SOUTH),NULL,NULL);     
     Allie eolienne("Eolienne",100,10,220,240,"Images/wind-turbine.png");
-
     for (size_t i = 0;i < 3;i++)
     {
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
@@ -37,7 +36,18 @@ int main()
 
 //    maps.push_back(&map1);
 
-    Map map2 = Map(vector<Ennemi>(), false, false, "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&map1);
+    Map map2 = Map(vector<Ennemi>(), false, false, "Images/map_inter_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(363,489,0,0,Cardinalite::NORTH),Porte(0,0,260,340,Cardinalite::SOUTH),NULL,&map1);
+
+    for (size_t i = 0;i < 3;i++)
+    {
+        ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
+    }
+
+    map2.setEnnemis(ennemis);
+
+    ennemis.clear();
+
+    Map map3 = Map(vector<Ennemi>(), false, false, "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&map1);
 
     for (size_t i = 0;i < 3;i++)
     {
@@ -46,17 +56,17 @@ int main()
 
     std::cout << "Here2" << std::endl;
 
-    map2.setEnnemis(ennemis);
+    map3.setEnnemis(ennemis);
 
     ennemis.clear();
 
-//    maps.push_back(&map2);
+//    maps.push_back(&map3);
 
-    map1.setMapNord(&map2);
+//    map1.setMapNord(&map3);
 
-    map2.setMapSud(&map1);
+    map3.setMapSud(&map2);
 
-    Map map_boss = Map(vector<Ennemi>(), false, false, "Images/Boss_map_R.png", "Images/Boss_combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(380,420,590,590,Cardinalite::SOUTH),NULL,&map2);
+    Map map_boss = Map(vector<Ennemi>(), false, false, "Images/Boss_map_R.png", "Images/Boss_combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(380,420,590,590,Cardinalite::SOUTH),NULL,&map3);
 
 /*    for (size_t i = 0;i < 3;i++)
     {
@@ -71,12 +81,14 @@ int main()
 //    maps.push_back(&map_boss);
 
     std::cout << "Here" << std::endl;
-
-    map2.setMapNord(&map_boss);
-    map2.setPorteNord(Porte(300,380,0,0,Cardinalite::NORTH));
-    map_boss.setMapSud(&map2);
+    map1.setMapSud(&map2);
+    map2.setMapNord(&map3);
+    map2.setMapSud(&map1);
+    map3.setMapNord(&map_boss);
+    map3.setPorteNord(Porte(300,380,0,0,Cardinalite::NORTH));
+    map_boss.setMapSud(&map3);
     maps.push_back(&map1);
-    maps.push_back(&map2);
+    maps.push_back(&map3);
     maps.push_back(&map_boss);
     std::cout << "Maps chargées" << std::endl;
 
