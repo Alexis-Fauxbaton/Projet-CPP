@@ -15,7 +15,7 @@
 
 
 
-void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,Map &maps){
+void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map){
 
 
    int initial_allie_position = allie.getSprite().getPosition().x;
@@ -24,7 +24,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
          allie.getSprite().setPosition(allie.getSprite().getPosition().x+3,allie.getSprite().getPosition().y);
          //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
 
-         window.draw(maps.getSpriteCombat());
+         window.draw(sprite_map);
          window.draw(perso1.getSprite());
          window.draw(ennemi.getSprite());
          window.draw(ennemi.getLifeBarBackground());
@@ -54,8 +54,11 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     music.play();
     sleep(1);
     allie.attaquer(ennemi);
+    cout << ennemi.getBaseHP() << endl;
+    cout << ennemi.getHP() << endl;
+    cout << (ennemi.getHP()/ennemi.getBaseHP())*50 << endl;
     if(!ennemi.estMort()){
-        ennemi.getLifeBar().setSize(sf::Vector2f(ennemi.getHP()/2,5));
+        ennemi.getLifeBar().setSize(sf::Vector2f((ennemi.getHP()*1.0/ennemi.getBaseHP())*50,5));
     }
     else{
         ennemi.getLifeBar().setSize(sf::Vector2f(0,5));
@@ -66,7 +69,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     while(abs(allie.getSprite().getPosition().x - initial_allie_position)>=3){
         allie.getSprite().setPosition(allie.getSprite().getPosition().x-3,allie.getSprite().getPosition().y);
 
-        window.draw(maps.getSpriteCombat());
+        window.draw(sprite_map);
          window.draw(perso1.getSprite());
          window.draw(ennemi.getSprite());
          window.draw(ennemi.getLifeBarBackground());
@@ -93,7 +96,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     
 }
 
-void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,Map &maps){
+void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Maitre &perso1,sf::Sprite sprite_map){
 
 
    int initial_ennemi_position = ennemi.getSprite().getPosition().x;
@@ -102,7 +105,7 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
          ennemi.getSprite().setPosition(ennemi.getSprite().getPosition().x-3,ennemi.getSprite().getPosition().y);
          //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
 
-         window.draw(maps.getSpriteCombat());
+         window.draw(sprite_map);
          window.draw(perso1.getSprite());
 
 
@@ -113,8 +116,6 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
             window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
             window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
             window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
-                 
-             
          }
          window.draw(ennemi.getSprite());
          window.display();
@@ -130,7 +131,7 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
     sleep(1);
     ennemi.attaquer(allie);
     if(!allie.estMort()){
-        allie.getLifeBar().setSize(sf::Vector2f(allie.getHP()/2,5));
+        allie.getLifeBar().setSize(sf::Vector2f((allie.getHP()*1.0/allie.getBaseHP())*50,5));
     }
     else{
         allie.getLifeBar().setSize(sf::Vector2f(0,5));
@@ -141,7 +142,7 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
     while(abs(ennemi.getSprite().getPosition().x - initial_ennemi_position)>=3){
         ennemi.getSprite().setPosition(ennemi.getSprite().getPosition().x+3,ennemi.getSprite().getPosition().y);
 
-         window.draw(maps.getSpriteCombat());
+         window.draw(sprite_map);
          window.draw(perso1.getSprite());
          
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
@@ -157,11 +158,7 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
          window.draw(ennemi.getSprite());
          window.display();
          window.clear();
-
-    }
-    
-    
-    
+    }  
 }
 
 
@@ -188,12 +185,12 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                
     // Positionnement allies Personnages
 
-    perso1.getSprite().setPosition(50,240);
-    perso2.getSprite().setPosition(650,240);                 
+    perso1.getSprite().setPosition(20,240);
+    perso2.getSprite().setPosition(600,240);                 
     cout << perso1.getSprite().getPosition().x << endl;
 
     for(size_t i=0;i < perso1.getAllAllies().size();i++){
-        perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+100*(i+1),perso1.getSprite().getPosition().y));
+        perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+70*(i+1),perso1.getSprite().getPosition().y));
     }
                    
     // perso1.getAllie(0).getSprite().setPosition(500,100);
@@ -207,11 +204,19 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
         perso1.getAllie(i).getLifeBarBackground().setPosition(perso1.getAllie(i).getSprite().getPosition().x,perso1.getAllie(i).getSprite().getPosition().y-5);
     }
 
+    // Postionnement Ennemi et/ou prisonnier et cage
 
     perso2.getLifeBar().setFillColor(sf::Color::Red);
-    perso2.getLifeBar().setPosition(650,245);
+    perso2.getLifeBar().setPosition(600,245);
     perso2.getLifeBar().setSize(sf::Vector2f(50,5));
     perso2.getLifeBarBackground().setPosition(perso2.getLifeBar().getPosition().x,perso2.getLifeBar().getPosition().y);
+    perso2.getPrisonnier().getSprite().setPosition(perso2.getSprite().getPosition().x+70,perso2.getSprite().getPosition().y);
+    
+
+    sf::Texture texture_cage;
+    texture_cage.loadFromFile("Images/Cage-PNG-File.png");
+    sf::Sprite sprite_cage(texture_cage);
+    sprite_cage.setPosition(perso2.getSprite().getPosition().x+50,perso2.getSprite().getPosition().y-20);
 
 
     sf::Texture texture_combat_action_menu;
@@ -307,6 +312,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 victory_sound.setBuffer(victory_buffer);
                 victory_sound.play();
                 sleep(victory_sound.getBuffer()->getDuration());
+                window.create(sf::VideoMode(800, 600), "Game");
                 
                 return true;
             }
@@ -336,7 +342,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 if(event_combat.type == sf::Event::KeyPressed){
                     action = 1;
                     if(event_combat.key.code == sf::Keyboard::Num1){
-                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,map);
+                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,sprite_map);
 
                     }
                     if(event_combat.key.code == sf::Keyboard::Num2){
@@ -376,10 +382,8 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                         break;
                     }
                 }
-                attaquer_animation2(perso1.getAllie(cible),perso2,window,perso1,map);
+                attaquer_animation2(perso1.getAllie(cible),perso2,window,perso1,sprite_map);
                 phase = 0;
-                
-
 
             }
             
@@ -391,7 +395,11 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                  window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
                  window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
             }
-
+            window.draw(perso2.getPrisonnier().getSprite());
+            if(perso2.getloot_allie()){
+                window.draw(sprite_cage);
+            }
+            
              window.display();
              window.clear();
              

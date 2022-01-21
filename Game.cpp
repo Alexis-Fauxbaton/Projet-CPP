@@ -55,7 +55,6 @@ void Game::run(vector<Map*> maps)
 
     // Creation du texte de combat
 
-    
 
     // Item Declaration
 
@@ -77,17 +76,17 @@ void Game::run(vector<Map*> maps)
     Mystique orbe3("orbe_3",20,0,0,true,"Images/relique_3.png");
 
 
-    joueur.getAllie(0).getEquipement().setArme(epee1);
-    joueur.getAllie(0).getEquipement().setArmure(armure1);
-    joueur.getAllie(0).getEquipement().setMystique(orbe1);
+    joueur.getAllie(0).ajouterArme(epee1);
+    joueur.getAllie(0).ajouterArmure(armure1);
+    joueur.getAllie(0).ajouterMystique(orbe1);
 
-    joueur.getAllie(1).getEquipement().setArme(epee2);
-    joueur.getAllie(1).getEquipement().setArmure(bouclier1);
-    joueur.getAllie(1).getEquipement().setMystique(orbe2);
+    joueur.getAllie(1).ajouterArme(epee2);
+    joueur.getAllie(1).ajouterArmure(bouclier1);
+    joueur.getAllie(1).ajouterMystique(orbe2);
 
-    joueur.getAllie(2).getEquipement().setArme(hache1);
-    joueur.getAllie(2).getEquipement().setArmure(bouclier2);
-    joueur.getAllie(2).getEquipement().setMystique(orbe3);
+    joueur.getAllie(2).ajouterArme(hache1);
+    joueur.getAllie(2).ajouterArmure(bouclier2);
+    joueur.getAllie(2).ajouterMystique(orbe3);
 
 
 
@@ -171,6 +170,9 @@ void Game::run(vector<Map*> maps)
             Combat combat(joueur,ennemis[combat_index],*maps[map_index]);
             if (combat.commencer(window,music_combat))
             {
+                if(ennemis[combat_index].getloot_allie()){
+                    joueur.addAllie(ennemis[combat_index].getPrisonnier());
+                }
                 ennemis.erase(ennemis.begin()+combat_index);
                 
                 

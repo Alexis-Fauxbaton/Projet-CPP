@@ -20,7 +20,7 @@ Personnage::Personnage():hp(0),atk(0),nom(""),equipement(),baseAtk(0),baseHp(0),
     sprite.setPosition(x,y);
 }
 
-Personnage::Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor)
+Personnage::Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor),chemin_texture(texture_path)
 {
     texture.loadFromFile(texture_path);
     sprite.setTexture(texture);
@@ -38,7 +38,11 @@ void Personnage::appliquerEffetEquipement()
 {
     atk=baseAtk+equipement.getArme().getAtk()+equipement.getArmure().getAtk()+equipement.getMystique().getAtk();
 
-    hp=baseHp+equipement.getArmure().getHP()+equipement.getMystique().getHP()+equipement.getArme().getHP();
+    hp=hp+equipement.getArmure().getHP()+equipement.getMystique().getHP()+equipement.getArme().getHP();
+    baseHp = baseHp + equipement.getArmure().getHP()+equipement.getMystique().getHP()+equipement.getArme().getHP();
+
+    this->getLifeBar().setSize(sf::Vector2f(this->getHP()/2,5));
+    this->getLifeBarBackground().setSize(sf::Vector2f(this->getBaseHP()/2,5));
     
 }
 
@@ -59,6 +63,7 @@ void Personnage::ajouterMystique(Mystique& mystique)
     equipement.setMystique(mystique);
     appliquerEffetEquipement();
 }
+
     
 bool Personnage::estProche(Personnage& cible, int distance)
 {
@@ -73,12 +78,14 @@ bool Personnage::estProche(Personnage& cible, int distance)
 
 Allie::Allie(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
 {
+    sf::RectangleShape bar_de_vie;
+    lifebar_perso = bar_de_vie;
     lifebar_perso.setFillColor(sf::Color::Red);
     lifebar_perso.setPosition(150,230);
-    lifebar_perso.setSize(sf::Vector2f(vie/2,5));
+    lifebar_perso.setSize(sf::Vector2f(50,5));
     lifebar_background.setFillColor(sf::Color::Black);
     lifebar_background.setPosition(150,230);
-    lifebar_background.setSize(sf::Vector2f(vie/2,5));
+    lifebar_background.setSize(sf::Vector2f(50,5));
 }
 
 void Allie::attaquer(Ennemi &cible)
@@ -90,14 +97,24 @@ Ennemi::Ennemi(std::string nom, int vie, int force, size_t x_coor,size_t y_coor,
 {
     lifebar_perso.setFillColor(sf::Color::Red);
     lifebar_perso.setPosition(150,230);
-    lifebar_perso.setSize(sf::Vector2f(vie/2,5));
+    lifebar_perso.setSize(sf::Vector2f(50,5));
     lifebar_background.setFillColor(sf::Color::Black);
     lifebar_background.setPosition(150,230);
-    lifebar_background.setSize(sf::Vector2f(vie/2,5));
+    lifebar_background.setSize(sf::Vector2f(50,5));
+    loot_allie = false;
 }
 
 
 void Ennemi::attaquer(Allie &cible)
 {
     cible.subir(this->atk);
+}
+
+void Ennemi::setPrisonnier(Allie &allie){
+
+    prisonnier = allie;
+    prisonnier.getTexture().loadFromFile(allie.getTexturePath());
+    prisonnier.getSprite().setTexture(prisonnier.getTexture());
+    loot_allie = true;
+
 }

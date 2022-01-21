@@ -9,6 +9,7 @@ void Equipement::setArme(Arme &arme){
     this->arme=arme;
     this->arme.getTexture().loadFromFile(arme.getTexturePath());
     this->arme.getSprite().setTexture(this->arme.getTexture());
+
 }
 
 void Equipement::setArmure(Armure &armure){

@@ -35,6 +35,7 @@ class Personnage
         string getNom(){return nom;}
         int getHP(){return hp;}
         int getAtk(){return atk;}
+        int getBaseHP(){return baseHp;};
         Equipement& getEquipement(){return equipement;}
         void appliquerEffetEquipement();
         void ajouterArme(Arme& arme);
@@ -45,8 +46,11 @@ class Personnage
         size_t getY(){return y;}
         sf::Sprite& getSprite(){return sprite;}
         sf::Texture getTexture(){return texture;}
+        virtual sf::RectangleShape& getLifeBar()=0;
+        virtual sf::RectangleShape& getLifeBarBackground()=0;
         bool estProche(Personnage& cible, int distance);
         bool estMort(){return hp<=0;}
+        string getTexturePath(){return chemin_texture;};
 
 
     protected:
@@ -60,10 +64,10 @@ class Personnage
         size_t y;
         sf::Sprite sprite;
         sf::Texture texture;
+        string chemin_texture;
+        
         
 };
-
-
 
 class Allie : public Personnage
 {
@@ -76,7 +80,6 @@ class Allie : public Personnage
         sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
         void attaquer(Ennemi &cible);
         void attaquer(Allie &cible){};
-    
     protected:
         sf::RectangleShape lifebar_perso;
         sf::RectangleShape lifebar_background;
@@ -91,13 +94,21 @@ class Ennemi : public Personnage
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
         sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
+        void setPrisonnier(Allie &allie);
+        Allie &getPrisonnier(){return prisonnier;};
+        bool getloot_allie(){return loot_allie;};
 
         void attaquer(Allie &cible);
         void attaquer(Ennemi &cible){};
-
     protected:
         sf::RectangleShape lifebar_perso;
         sf::RectangleShape lifebar_background;
+        bool loot_allie;
+        Allie prisonnier;
+        
+
+    
+        
 };
 
 class Maitre : public Personnage
@@ -112,10 +123,14 @@ class Maitre : public Personnage
         void addAllie(Allie &allie){perso_allies.push_back(allie);};
         void attaquer(Allie &cible){};
         void attaquer(Ennemi &cible){};
+        sf::RectangleShape& getLifeBar(){return lifebar_perso;};
+        sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
 
 
     protected:
         vector<Allie> perso_allies;
+        sf::RectangleShape lifebar_perso;
+        sf::RectangleShape lifebar_background;
 
 };
 
