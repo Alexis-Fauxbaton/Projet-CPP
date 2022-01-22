@@ -110,6 +110,12 @@ void Game::run(vector<Map*> maps)
 
     while(1)
     {
+        cout << "Nb ennemis dernier combat : " << maps[maps.size()-1]->getEnnemis().size() << endl;
+        if (maps[maps.size()-1]->getEnnemis().size() == 0)
+        {
+            cout << "VICTOIRE" << endl;
+            break;
+        }
         if (switched)
         {
             if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
@@ -137,24 +143,44 @@ void Game::run(vector<Map*> maps)
                 {
                     back_x = joueur.getX();
                     back_y = joueur.getY();
-                    if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 10)
+                    if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 0)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
                     }
-                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 589)
+                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 599)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()+10);
                     }
-                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 10)
+                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 0)
                     {
                         joueur.setPosition(joueur.getX()-10,joueur.getY());
                     }
-                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 789)
+                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 799)
                     {
                         joueur.setPosition(joueur.getX()+10,joueur.getY());
                     }
                     
-                    sprite_joueur.setPosition(joueur.getX(),joueur.getY());                }
+                    if (joueur.getX() < 0)
+                    {
+                        joueur.setPosition(0,joueur.getY());
+                    }
+                    if (joueur.getX() > 799)
+                    {
+                        joueur.setPosition(790,joueur.getY());
+                    }
+                    if (joueur.getY() < 0)
+                    {
+                        joueur.setPosition(joueur.getX(),0);
+                    }
+                    if (joueur.getY() > 599)
+                    {
+                        joueur.setPosition(joueur.getX(),590);
+                    }
+
+                    sprite_joueur.setPosition(joueur.getX(),joueur.getY());                
+                    
+                    
+                    }
             }
             
         }
@@ -174,6 +200,7 @@ void Game::run(vector<Map*> maps)
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
                 ennemis.erase(ennemis.begin()+combat_index);
+                map_actuelle->setEnnemis(ennemis);
                 
                 
 
@@ -195,6 +222,9 @@ void Game::run(vector<Map*> maps)
             
             //CHECK SI LE JOUEUR EST SUR LA PORTE NORD
 
+            cout << "Porte Nord : ";
+            map_actuelle->getPorteNord().afficher_coordonnees();
+
             if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
             {
                 map_actuelle = map_actuelle->getMapNord();
@@ -207,11 +237,14 @@ void Game::run(vector<Map*> maps)
 
             //CHECK SI LE JOUEUR EST SUR LA PORTE SUD
 
+            cout << "Porte Sud : ";
+            map_actuelle->getPorteSud().afficher_coordonnees();
+
             if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
             {
                 map_actuelle = map_actuelle->getMapSud();
-                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2;
-                new_y = map_actuelle->getPorteNord().getY1()+20;
+                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2 + -10;
+                new_y = map_actuelle->getPorteNord().getY1()+10;
                 joueur.setPosition(new_x,new_y);
                 sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;

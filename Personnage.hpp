@@ -75,6 +75,7 @@ class Allie : public Personnage
     public:
         Allie():Personnage(){};
         Allie(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path);
+        virtual ~Allie(){};
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
         sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
@@ -91,6 +92,7 @@ class Ennemi : public Personnage
     public:
         Ennemi():Personnage(){};
         Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
+        virtual ~Ennemi(){};
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
         sf::RectangleShape& getLifeBarBackground(){return lifebar_background;};
@@ -116,6 +118,7 @@ class Maitre : public Personnage
     public:
         Maitre():Personnage(){};
         Maitre(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
+        virtual ~Maitre(){};
 
         vector<Allie> getAllAllies(){return perso_allies;};
         Allie& getAllie(size_t indice){return perso_allies[indice];};
