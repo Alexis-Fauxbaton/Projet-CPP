@@ -30,6 +30,7 @@ void Game::run(vector<Map*> maps)
     }*/
 
     Maitre joueur("Poubelle",100,50,100,340,"Images/poubelle2.png");
+    Inventaire inventaire;
     
     sf::Sprite sprite_joueur = joueur.getSprite();
 
@@ -37,7 +38,8 @@ void Game::run(vector<Map*> maps)
 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Game");
 
-    bool en_combat = false;                         
+    bool en_combat = false;
+    bool dans_inventaire = false;                         
 
 
     // Creation des allies
@@ -50,7 +52,17 @@ void Game::run(vector<Map*> maps)
     joueur.addAllie(eolienne);
     joueur.addAllie(panneau);
 
-    
+    vector<Objet> objets;
+
+    Objet objet1 = Objet("epee", 0, 100, 20, 0, "Images/épée_1.png");
+    Objet objet2 = Objet("hache", 50, 50, 0, 0, "Images/épée_2.png");
+    Objet objet3 = Objet("armure", 200, 0, 100, 0, "Images/épée_4.png");
+    Objet objet4 = Objet("casque", 100, 0, 50, 0, "Images/armure_1.png");
+
+    objets.push_back(objet1);
+    objets.push_back(objet2);
+    objets.push_back(objet3);
+    objets.push_back(objet4);
 
 
     // Creation du texte de combat
@@ -89,7 +101,43 @@ void Game::run(vector<Map*> maps)
     joueur.getAllie(2).ajouterMystique(orbe3);
 
 
+    // ajout objet inventaire
 
+    inventaire.ajouterObjet(epee1);
+    inventaire.ajouterObjet(epee2);
+    inventaire.ajouterObjet(epee1);
+    inventaire.ajouterObjet(bouclier2);
+    inventaire.ajouterObjet(bouclier1);
+
+    // declaration inventaire
+
+    vector<Objet> liste_objets;
+    vector<Allie> liste_allies;
+
+    sf::Texture textureInventaire;
+    sf::Sprite spriteInventaire;
+    textureInventaire.loadFromFile("Images/inventaire.png");
+    spriteInventaire.setTexture(textureInventaire);
+
+    sf::Texture texturePerso;
+    sf::Sprite spritePerso;
+    texturePerso.loadFromFile("Images/perso_vide.png");
+    spritePerso.setTexture(texturePerso);
+
+    sf::Texture textureArme;
+    sf::Sprite spriteArme;
+    textureArme.loadFromFile("Images/arme_vide.png");
+    spriteArme.setTexture(textureArme);
+
+    sf::Texture textureArmure;
+    sf::Sprite spriteArmure;
+    textureArmure.loadFromFile("Images/armure_vide.png");
+    spriteArmure.setTexture(textureArmure);
+
+    sf::Texture textureMythique;
+    sf::Sprite spriteMytique;
+    textureMythique.loadFromFile("Images/mythique_vide.png");
+    spriteMytique.setTexture(textureMythique);
     
     // sf::Sprite sprite_epee = joueur.getAllie(0).getEquipement().getArme().getSprite()é;
     // sprite_epee.setTexture(armure_texture);
@@ -110,12 +158,6 @@ void Game::run(vector<Map*> maps)
 
     while(1)
     {
-        cout << "Nb ennemis dernier combat : " << maps[maps.size()-1]->getEnnemis().size() << endl;
-        if (maps[maps.size()-1]->getEnnemis().size() == 0)
-        {
-            cout << "VICTOIRE" << endl;
-            break;
-        }
         if (switched)
         {
             if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
@@ -139,48 +181,40 @@ void Game::run(vector<Map*> maps)
             }
             if(event.type == sf::Event::KeyPressed)
             {
-                if (!en_combat)
+                if (!en_combat && !dans_inventaire)
                 {
                     back_x = joueur.getX();
                     back_y = joueur.getY();
-                    if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 0)
+                    if (event.key.code == sf::Keyboard::I)
+                    {   
+                        dans_inventaire = !dans_inventaire;
+                    }
+                    else if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 10)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
                     }
-                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 599)
+                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 589)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()+10);
                     }
-                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 0)
+                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 10)
                     {
                         joueur.setPosition(joueur.getX()-10,joueur.getY());
                     }
-                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 799)
+                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 789)
                     {
                         joueur.setPosition(joueur.getX()+10,joueur.getY());
                     }
                     
-                    if (joueur.getX() < 0)
-                    {
-                        joueur.setPosition(0,joueur.getY());
-                    }
-                    if (joueur.getX() > 799)
-                    {
-                        joueur.setPosition(790,joueur.getY());
-                    }
-                    if (joueur.getY() < 0)
-                    {
-                        joueur.setPosition(joueur.getX(),0);
-                    }
-                    if (joueur.getY() > 599)
-                    {
-                        joueur.setPosition(joueur.getX(),590);
-                    }
-
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());                
-                    
-                    
+                }
+                else if (dans_inventaire)
+                {   
+                    if (event.key.code == sf::Keyboard::I)
+                    {
+                        dans_inventaire = false;
                     }
+                }
             }
             
         }
@@ -200,7 +234,6 @@ void Game::run(vector<Map*> maps)
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
                 ennemis.erase(ennemis.begin()+combat_index);
-                map_actuelle->setEnnemis(ennemis);
                 
                 
 
@@ -222,9 +255,6 @@ void Game::run(vector<Map*> maps)
             
             //CHECK SI LE JOUEUR EST SUR LA PORTE NORD
 
-            cout << "Porte Nord : ";
-            map_actuelle->getPorteNord().afficher_coordonnees();
-
             if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
             {
                 map_actuelle = map_actuelle->getMapNord();
@@ -237,14 +267,11 @@ void Game::run(vector<Map*> maps)
 
             //CHECK SI LE JOUEUR EST SUR LA PORTE SUD
 
-            cout << "Porte Sud : ";
-            map_actuelle->getPorteSud().afficher_coordonnees();
-
             if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
             {
                 map_actuelle = map_actuelle->getMapSud();
-                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2 + -10;
-                new_y = map_actuelle->getPorteNord().getY1()+10;
+                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2;
+                new_y = map_actuelle->getPorteNord().getY1()+20;
                 joueur.setPosition(new_x,new_y);
                 sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;
@@ -266,14 +293,80 @@ void Game::run(vector<Map*> maps)
 
 
             window.clear();
-            window.draw(map_actuelle->getSprite());
-            for (size_t i=0;i<ennemis.size();i++)
+            if (dans_inventaire)
             {
-                window.draw(ennemis[i].getSprite());
+                window.draw(spriteInventaire);
+                liste_allies = joueur.getAllAllies();
+                for (size_t i=0; i<4; i++){
+                    if (i>=liste_allies.size())
+                    {
+                        spritePerso.setPosition(50,i*100 + 70);
+                        spriteArme.setPosition(150,i*100+ 80);
+                        spriteArmure.setPosition(250,i*100+ 80);
+                        spriteMytique.setPosition(350,i*100+ 80);
+                        window.draw(spritePerso);
+                        window.draw(spriteArme);
+                        window.draw(spriteArmure);
+                        window.draw(spriteMytique);
+                    }
+                    else
+                    {
+                        liste_allies[i].getSprite().setPosition(50,i*100+ 70);
+                        window.draw(liste_allies[i].getSprite());
+
+                        if (liste_allies[i].getEquipement().getArme().getNom()=="")
+                        {
+                            spriteArme.setPosition(150,i*100+ 80);
+                            window.draw(spriteArme);
+                        }
+                        else
+                        {
+                            liste_allies[i].getEquipement().getArme().getSprite().setPosition(150,i*100+ 80);
+                            window.draw(liste_allies[i].getEquipement().getArme().getSprite());
+                        }
+
+                        if (liste_allies[i].getEquipement().getArmure().getNom()=="")
+                        {
+                            spriteArmure.setPosition(250,i*100+ 70);
+                            window.draw(spriteArmure);
+                        }
+                        else
+                        {
+                            liste_allies[i].getEquipement().getArmure().getSprite().setPosition(250,i*100+ 80);
+                            window.draw(liste_allies[i].getEquipement().getArmure().getSprite());
+                        }
+
+                        if (liste_allies[i].getEquipement().getMystique().getNom()=="")
+                        {
+                            spriteMytique.setPosition(350,i*100+ 80);
+                            window.draw(spriteMytique);
+                        }
+                        else
+                        {
+                            liste_allies[i].getEquipement().getMystique().getSprite().setPosition(350,i*100+ 80);
+                            window.draw(liste_allies[i].getEquipement().getMystique().getSprite());
+                        }
+                    }
+                    
+                }
+                liste_objets = inventaire.getObjets();
+                for (int i=0; i<inventaire.getNbObjet(); i++)
+                {   
+                    liste_objets[i].getSprite().setPosition(i*100,500);
+                    window.draw(liste_objets[i].getSprite());
+                }
+                
             }
-            window.draw(joueur.getAllie(0).getEquipement().getArme().getSprite());
-            window.draw(sprite_joueur);
-            
+            else
+            {
+                window.draw(map_actuelle->getSprite());
+                for (size_t i=0;i<ennemis.size();i++)
+                {
+                    window.draw(ennemis[i].getSprite());
+                }
+                window.draw(joueur.getAllie(0).getEquipement().getArme().getSprite());
+                window.draw(sprite_joueur);
+            }
             
             // window.draw();
             window.display();
