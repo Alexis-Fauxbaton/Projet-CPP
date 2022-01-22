@@ -22,7 +22,7 @@ class Personnage
 {
     public:
         Personnage();
-        Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
+        Personnage(std::string nom, int vie, int force, int x_coor, int y_coor,string texture_path);
         Personnage(const Personnage& orig);
         ~Personnage(){};
         //void afficher(); Implementation avec IMGUI
@@ -42,8 +42,8 @@ class Personnage
         void ajouterArmure(Armure& armure);
         void ajouterMystique(Mystique& mystique);
         void setPosition(size_t x, size_t y){this->x=x;this->y=y;}
-        size_t getX(){return x;}
-        size_t getY(){return y;}
+        int getX(){return x;}
+        int getY(){return y;}
         sf::Sprite& getSprite(){return sprite;}
         sf::Texture getTexture(){return texture;}
         virtual sf::RectangleShape& getLifeBar()=0;
@@ -60,8 +60,8 @@ class Personnage
         Equipement equipement;
         int baseAtk;
         int baseHp;
-        size_t x;
-        size_t y;
+        int x;
+        int y;
         sf::Sprite sprite;
         sf::Texture texture;
         string chemin_texture;
@@ -74,7 +74,7 @@ class Allie : public Personnage
 
     public:
         Allie():Personnage(){};
-        Allie(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path);
+        Allie(std::string nom, int vie, int force, int x_coor, int y_coor, string texture_path);
         virtual ~Allie(){};
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
@@ -91,7 +91,7 @@ class Ennemi : public Personnage
 {
     public:
         Ennemi():Personnage(){};
-        Ennemi(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path);
+        Ennemi(std::string nom, int vie, int force, int x_coor, int y_coor,string texture_path);
         virtual ~Ennemi(){};
 
         sf::RectangleShape& getLifeBar(){return lifebar_perso;};
@@ -117,7 +117,7 @@ class Maitre : public Personnage
 {
     public:
         Maitre():Personnage(){};
-        Maitre(std::string nom, int vie, int force, size_t x_coor, size_t y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
+        Maitre(std::string nom, int vie, int force, int x_coor, int y_coor,string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path){};
         virtual ~Maitre(){};
 
         vector<Allie> getAllAllies(){return perso_allies;};

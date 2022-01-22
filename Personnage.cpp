@@ -20,7 +20,7 @@ Personnage::Personnage():hp(0),atk(0),nom(""),equipement(),baseAtk(0),baseHp(0),
     sprite.setPosition(x,y);
 }
 
-Personnage::Personnage(std::string nom, int vie, int force, size_t x_coor, size_t y_coor, string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor),chemin_texture(texture_path)
+Personnage::Personnage(std::string nom, int vie, int force, int x_coor, int y_coor, string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor),chemin_texture(texture_path)
 {
     texture.loadFromFile(texture_path);
     sprite.setTexture(texture);
@@ -76,7 +76,7 @@ bool Personnage::estProche(Personnage& cible, int distance)
     return false;
 }
 
-Allie::Allie(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
+Allie::Allie(std::string nom, int vie, int force, int x_coor, int y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
 {
     sf::RectangleShape bar_de_vie;
     lifebar_perso = bar_de_vie;
@@ -93,7 +93,7 @@ void Allie::attaquer(Ennemi &cible)
     cible.subir(this->atk);
 }
 
-Ennemi::Ennemi(std::string nom, int vie, int force, size_t x_coor,size_t y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
+Ennemi::Ennemi(std::string nom, int vie, int force, int x_coor, int y_coor, string texture_path):Personnage(nom,vie,force,x_coor,y_coor,texture_path)
 {
     lifebar_perso.setFillColor(sf::Color::Red);
     lifebar_perso.setPosition(150,230);

@@ -189,21 +189,37 @@ void Game::run(vector<Map*> maps)
                     {   
                         dans_inventaire = !dans_inventaire;
                     }
-                    else if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 10)
+                    else if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 0)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
                     }
-                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 589)
+                    else if (event.key.code == sf::Keyboard::Down && joueur.getY() <= 599)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()+10);
                     }
-                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 10)
+                    else if (event.key.code == sf::Keyboard::Left && joueur.getX() >= 0)
                     {
                         joueur.setPosition(joueur.getX()-10,joueur.getY());
                     }
-                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 789)
+                    else if (event.key.code == sf::Keyboard::Right && joueur.getX() <= 799)
                     {
                         joueur.setPosition(joueur.getX()+10,joueur.getY());
+                    } 
+                    if(joueur.getX() < 0)
+                    {
+                        joueur.setPosition(0,joueur.getY());
+                    }
+                    else if(joueur.getX() > 799)
+                    {
+                        joueur.setPosition(790,joueur.getY());
+                    }
+                    if(joueur.getY() < 0)
+                    {
+                        joueur.setPosition(joueur.getX(),0);
+                    }
+                    else if(joueur.getY() > 599)
+                    {
+                        joueur.setPosition(joueur.getX(),590);
                     }
                     
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());                
@@ -257,9 +273,10 @@ void Game::run(vector<Map*> maps)
 
             if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
             {
+
                 map_actuelle = map_actuelle->getMapNord();
-                new_x = (map_actuelle->getPorteSud().getX2() + map_actuelle->getPorteSud().getX1())/2;
-                new_y = map_actuelle->getPorteSud().getY1()-20;
+                new_x = (map_actuelle->getPorteSud().getX2() + map_actuelle->getPorteSud().getX1())/2 + 20;
+                new_y = (map_actuelle->getPorteSud().getY2() + map_actuelle->getPorteSud().getY1())/2 - 10;
                 joueur.setPosition(new_x,new_y);
                 sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;
@@ -270,12 +287,11 @@ void Game::run(vector<Map*> maps)
             if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
             {
                 map_actuelle = map_actuelle->getMapSud();
-                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2;
-                new_y = map_actuelle->getPorteNord().getY1()+20;
+                new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2 - 10;
+                new_y = (map_actuelle->getPorteNord().getY2() + map_actuelle->getPorteNord().getY1())/2 + 10;
                 joueur.setPosition(new_x,new_y);
                 sprite_joueur.setPosition(joueur.getX(),joueur.getY());
-                switched = true;
-            }
+                switched = true;            }
             
             for (size_t i = 0;i<ennemis.size();i++)
             {

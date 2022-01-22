@@ -49,7 +49,7 @@ int main()
 
     ennemis.clear();
 
-    Map map3 = Map(vector<Ennemi>(), "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,590,500,590,Cardinalite::SOUTH),NULL,&map1);
+    Map map3 = Map(vector<Ennemi>(), "Images/Map2_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(-10,-10,-10,-10,Cardinalite::NORTH),Porte(300,500,590,590,Cardinalite::SOUTH),NULL,&map1);
 
     for (size_t i = 0;i < 3;i++)
     {
