@@ -14,7 +14,7 @@ using namespace std;
 
 bool Obstacle::detecter_collision(Personnage& perso)
 {
-    if(perso.getX()>=x && perso.getX()<=x+longueur && perso.getX()>=y && perso.getY()<=y+largeur)
+    if(perso.getX()>=x && perso.getX()<=x+longueur && perso.getY()>=y && perso.getY()<=y+largeur)
     {
         return true;
     }

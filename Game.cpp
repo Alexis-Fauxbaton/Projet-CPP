@@ -5,6 +5,7 @@
 #include "Personnage.hpp"
 #include "Map.hpp"
 #include "Combat.hpp"
+#include "Obstacle.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -24,6 +25,7 @@ void Game::run(vector<Map*> maps)
     int new_x = 0;
     int new_y = 0;
     vector<Ennemi> ennemis;
+    vector<Obstacle> obstacles = map_actuelle->getObstacles();
     /*for (size_t i = 0;i < 3;i++)
     {
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
@@ -168,6 +170,7 @@ void Game::run(vector<Map*> maps)
             }
             music_combat.setBuffer(map_actuelle->getBufferCombat());
             ennemis = map_actuelle->getEnnemis();
+            obstacles = map_actuelle->getObstacles();
             switched = false;
         }
 
@@ -222,7 +225,24 @@ void Game::run(vector<Map*> maps)
                         joueur.setPosition(joueur.getX(),590);
                     }
                     
-                    sprite_joueur.setPosition(joueur.getX(),joueur.getY());                
+                    for (size_t i=0;i<obstacles.size();i++)
+                    {
+                        if (i == 2)
+                        {
+                            cout << "Pos joueur : " << joueur.getX() << " " << joueur.getY() << endl;  
+                            cout << (obstacles[i].detecter_collision(joueur)) << endl;
+                            cout << "Pos obstacle : " << obstacles[i].getX() << " " << obstacles[i].getY() << endl;
+                            cout << "Largeur : " << obstacles[i].getLongueur() << " Hauteur : " << obstacles[i].getLargeur() << endl;
+                        }
+                                          
+                        
+                        if (obstacles[i].detecter_collision(joueur))
+                        {
+                            joueur.setPosition(back_x,back_y);
+                        }
+                    }
+                    cout << "Pos joueur : " << joueur.getX() << " " << joueur.getY() << endl;
+                    sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 }
                 else if (dans_inventaire)
                 {   

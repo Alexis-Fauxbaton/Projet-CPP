@@ -4,6 +4,7 @@
 #include "Objet.hpp"
 #include "Personnage.hpp"
 #include "Porte.hpp"
+#include "Obstacle.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -17,7 +18,7 @@ class Map
 {
     public:
         Map();
-        Map(vector<Ennemi> v_ennemis, string texture_path, string combat_texture_path, string main_sound_path, string combat_sound_path, Porte porte_nord, Porte porte_sud, Map* map_nord, Map* map_sud);
+        Map(vector<Ennemi> v_ennemis, string texture_path, string combat_texture_path, string main_sound_path, string combat_sound_path, Porte porte_nord, Porte porte_sud, Map* map_nord, Map* map_sud, vector<Obstacle> v_obstacles);
         ~Map(){};
         void setEnnemis(vector<Ennemi> v_ennemis){ennemis=v_ennemis;}
         vector<Ennemi> &getEnnemis(){return ennemis;}
@@ -40,6 +41,8 @@ class Map
         Map* getMapSud(){return map_sud;}
         void ajouterEnnemi(Ennemi& ennemi){ennemis.push_back(ennemi);}
         void retirerEnnemi(size_t index){ennemis.erase(ennemis.begin()+index);}
+        vector<Obstacle> &getObstacles(){return obstacles;}
+        void setObstacles(vector<Obstacle> &v_obstacles){obstacles=v_obstacles;}
         void run();
 
     private:
@@ -57,5 +60,6 @@ class Map
         Porte porte_sud;
         Map* map_nord;
         Map* map_sud;
+        vector<Obstacle> obstacles;
   
 };
