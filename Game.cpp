@@ -31,7 +31,7 @@ void Game::run(vector<Map*> maps)
         ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
     }*/
 
-    Maitre joueur("Poubelle",100,50,100,340,"Images/poubelle2.png");
+    Maitre joueur("Joueur",100,50,100,340,"Images/joueur.png");
     Inventaire inventaire;
     
     sf::Sprite sprite_joueur = joueur.getSprite();
