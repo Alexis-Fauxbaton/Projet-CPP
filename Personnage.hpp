@@ -122,6 +122,7 @@ class Maitre : public Personnage
 
         vector<Allie> getAllAllies(){return perso_allies;};
         Allie& getAllie(size_t indice){return perso_allies[indice];};
+        void setAllAllies(vector<Allie>& allies){perso_allies=allies;};
 
         void addAllie(Allie &allie){perso_allies.push_back(allie);};
         void attaquer(Allie &cible){};

@@ -160,6 +160,12 @@ void Game::run(vector<Map*> maps)
 
     while(1)
     {
+        if (maps[2]->getEnnemis()[0].getHP() <= 0)
+        {
+            cout << "VICTOIRE" << endl;
+            break;
+        }
+        
         if (switched)
         {
             if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
@@ -270,11 +276,13 @@ void Game::run(vector<Map*> maps)
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
                 ennemis.erase(ennemis.begin()+combat_index);
-                
+                map_actuelle->setEnnemis(ennemis);
+                switched=true;
                 
 
             }
-            else{
+            else
+            {
                 joueur.setPosition(back_x,back_y);
                 sprite_joueur.setPosition(back_x,back_y);
                 // joueur.getSprite().setPosition(back_x,back_y);
