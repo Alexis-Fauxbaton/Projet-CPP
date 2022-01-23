@@ -20,7 +20,7 @@ class Map
         Map();
         Map(vector<Ennemi> v_ennemis, string texture_path, string combat_texture_path, string main_sound_path, string combat_sound_path, Porte porte_nord, Porte porte_sud, Map* map_nord, Map* map_sud, vector<Obstacle> v_obstacles);
         ~Map(){};
-        void setEnnemis(vector<Ennemi> v_ennemis){ennemis=v_ennemis;}
+        void setEnnemis(vector<Ennemi>& v_ennemis){ennemis=v_ennemis;}
         vector<Ennemi> &getEnnemis(){return ennemis;}
         void setSprite(sf::Sprite sprite){this->sprite=sprite;}
         void setSpriteCombat(sf::Sprite sprite){this->sprite_combat=sprite;}

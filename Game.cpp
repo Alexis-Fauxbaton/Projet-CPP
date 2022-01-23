@@ -165,7 +165,7 @@ void Game::run(vector<Map*> maps)
             cout << "VICTOIRE" << endl;
             break;
         }
-        
+
         if (switched)
         {
             if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
@@ -275,7 +275,8 @@ void Game::run(vector<Map*> maps)
                 if(ennemis[combat_index].getloot_allie()){
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
-                ennemis.erase(ennemis.begin()+combat_index);
+                ennemis[combat_index].setHp(0);
+                //ennemis.erase(ennemis.begin()+combat_index);
                 map_actuelle->setEnnemis(ennemis);
                 switched=true;
                 
@@ -323,11 +324,8 @@ void Game::run(vector<Map*> maps)
             
             for (size_t i = 0;i<ennemis.size();i++)
             {
-                if (joueur.estProche(ennemis[i],10))
+                if (joueur.estProche(ennemis[i],10) && !ennemis[i].estMort())
                 {
-                    cout << "Ennemi " << i << " est proche" << endl;
-                    cout << "joueur" << joueur.getX() << " " << joueur.getY() << endl;
-                    cout << "Ennemi" << ennemis[i].getX() << " " << ennemis[i].getY() << endl;
                     en_combat = true;
                     combat_index = i;
                     break;
@@ -406,7 +404,10 @@ void Game::run(vector<Map*> maps)
                 window.draw(map_actuelle->getSprite());
                 for (size_t i=0;i<ennemis.size();i++)
                 {
-                    window.draw(ennemis[i].getSprite());
+                    if (!ennemis[i].estMort())
+                    {
+                        window.draw(ennemis[i].getSprite());
+                    }
                 }
                 window.draw(joueur.getAllie(0).getEquipement().getArme().getSprite());
                 window.draw(sprite_joueur);

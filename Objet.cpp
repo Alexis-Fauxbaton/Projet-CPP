@@ -7,7 +7,7 @@
 #include <SFML/Audio.hpp>
 using namespace std;
 
-Objet::Objet():hp(0),atk(0),def(0),nom(""),estEquipe(false),chemin_texture("../Images/arme_vide.png")
+Objet::Objet():hp(0),atk(0),def(0),nom(""),estEquipe(false),chemin_texture("Images/arme_vide.png")
 {
     texture_objet.loadFromFile(chemin_texture);   
     sprite_objet.setTexture(texture_objet);
