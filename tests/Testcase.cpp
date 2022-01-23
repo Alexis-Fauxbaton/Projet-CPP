@@ -154,3 +154,15 @@ TEST_CASE("6: Porte")
 
     CHECK(porte.entre(allie.getX(),allie.getY()));
 }
+
+TEST_CASE("7: Combat")
+{
+
+    Map map1 = Map(vector<Ennemi>(), "Images/Forest_R.png", "Images/Forest_Combat_R.png", "Sound/pokemon_eterna_forest.wav", "Sound/pokemon-brilliant-diamond-shining-pearl-gym-leader-battle-music-hq.wav",Porte(750,750,374,590,Cardinalite::NORTH),Porte(-10,-10,-10,-10,Cardinalite::SOUTH),NULL,NULL, vector<Obstacle>());     
+    Ennemi ennemi("Allié",100,10,220,240,"../Images/solar-pannel.png");
+    Maitre joueur("Poubelle",100,50,100,340,"../Images/poubelle2.png");
+    Combat combat(joueur,ennemi,map1);
+
+
+
+}

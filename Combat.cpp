@@ -34,15 +34,14 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
             window.draw(sprite_cage);
 
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
-             if(perso1.getAllie(i).getNom() != allie.getNom()){
-                 window.draw(perso1.getAllie(i).getSprite());
-                 window.draw(perso1.getAllie(i).getLifeBarBackground());
-                 window.draw(perso1.getAllie(i).getLifeBar());
-                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
+            window.draw(perso1.getAllie(i).getSprite());
+            window.draw(perso1.getAllie(i).getLifeBarBackground());
+            window.draw(perso1.getAllie(i).getLifeBar());
+            window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                  
-             }
+             
          }
          window.draw(allie.getSprite());
          window.display();
@@ -82,15 +81,15 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
          window.draw(sprite_cage);
          
          for(size_t i = 0;i<perso1.getAllAllies().size();i++){
-             if(perso1.getAllie(i).getNom() != allie.getNom()){
-                 window.draw(perso1.getAllie(i).getSprite());
-                 window.draw(perso1.getAllie(i).getLifeBarBackground());
-                 window.draw(perso1.getAllie(i).getLifeBar());
-                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
+             
+            window.draw(perso1.getAllie(i).getSprite());
+            window.draw(perso1.getAllie(i).getLifeBarBackground());
+            window.draw(perso1.getAllie(i).getLifeBar());
+            window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+            window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
                 
-             }
+             
          }
          window.draw(allie.getSprite());
          window.display();
@@ -251,7 +250,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
     phase_01_press2.setPosition(20,55);
     sf::Text phase_01_press3("PRESS 3",font_game,8);
     phase_01_press3.setPosition(20,75);
-    sf::Text phase_01_press4("PRESS 4",font_game,8);
+    sf::Text phase_01_press4("PRESS L",font_game,8);
     phase_01_press4.setPosition(20,95);
     
 
@@ -356,24 +355,31 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 phase_0_choose.setString("Tour de : ");
 
                 cout << "ICI PHASE 0" << endl;
+                if(!perso1.getAllie(allie_turn).estMort()){
 
-                if(event_combat.type == sf::Event::KeyPressed){
-                    action = 1;
-                    if(event_combat.key.code == sf::Keyboard::Num1){
-                        attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,sprite_map,sprite_cage);
+                
+                    if(event_combat.type == sf::Event::KeyPressed){
+                        action = 1;
+                        if(event_combat.key.code == sf::Keyboard::Num1){
+                            attaquer_animation(perso1.getAllie(allie_turn),perso2,window,perso1,sprite_map,sprite_cage);
 
-                    }
-                    if(event_combat.key.code == sf::Keyboard::Num2){
+                        }
+                        if(event_combat.key.code == sf::Keyboard::Num2){
+                            
+                        }
+                        if(event_combat.key.code == sf::Keyboard::Num3){
+                            
+                        }
+                        if(event_combat.key.code == sf::Keyboard::L){
+                            
+                            music.stop();
+                            window.create(sf::VideoMode(800, 600), "Game");
+                            return false;
                         
-                    }
-                    if(event_combat.key.code == sf::Keyboard::Num3){
-                        
-                    }
-                    if(event_combat.key.code == sf::Keyboard::Num4){
-                       
+                        }
                     }
                 }
-                if(action == 1){
+                if(action == 1 || perso1.getAllie(allie_turn).estMort()){
                     if(allie_turn < perso1.getAllAllies().size()-1){
                         allie_turn += 1;
                     }
@@ -406,12 +412,14 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
             }
             
             for(size_t i = 0;i<perso1.getAllAllies().size();i++){
-                 window.draw(perso1.getAllie(i).getSprite());
-                 window.draw(perso1.getAllie(i).getLifeBarBackground());
-                 window.draw(perso1.getAllie(i).getLifeBar());
-                 window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
-                 window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
+                if(!perso1.getAllie(i).estMort()){
+                    window.draw(perso1.getAllie(i).getSprite());
+                    window.draw(perso1.getAllie(i).getLifeBarBackground());
+                    window.draw(perso1.getAllie(i).getLifeBar());
+                    window.draw(perso1.getAllie(i).getEquipement().getArme().getSprite());
+                    window.draw(perso1.getAllie(i).getEquipement().getArmure().getSprite());
+                    window.draw(perso1.getAllie(i).getEquipement().getMystique().getSprite());
+                }
             }
             window.draw(perso2.getPrisonnier().getSprite());
             if(perso2.getloot_allie()){
@@ -419,6 +427,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
             }
             
              window.display();
+             
              window.clear();
              
 
