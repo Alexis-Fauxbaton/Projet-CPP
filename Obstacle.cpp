@@ -12,7 +12,7 @@
 
 using namespace std;
 
-bool Obstacle::detecter_collision(Personnage& perso)
+bool Obstacle::detecter_collision(Personnage& perso) // On détecte si le personnage "perso" entre en collision avec l'obstacle courant
 {
     if(perso.getX()>=x && perso.getX()<=x+longueur && perso.getY()>=y && perso.getY()<=y+largeur)
     {

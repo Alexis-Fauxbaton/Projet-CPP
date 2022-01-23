@@ -11,6 +11,7 @@ int v_abs(int a){
         return a;
 }
 
+// Constructeur par défaut de Personnage
 Personnage::Personnage():hp(0),atk(0),nom(""),equipement(),baseAtk(0),baseHp(0),x(0),y(0)
 {
     sf::Texture texture;
@@ -19,6 +20,7 @@ Personnage::Personnage():hp(0),atk(0),nom(""),equipement(),baseAtk(0),baseHp(0),
     sprite.setPosition(x,y);
 }
 
+// Constructeur classique de Personnage
 Personnage::Personnage(std::string nom, int vie, int force, int x_coor, int y_coor, string texture_path):hp(vie),atk(force),nom(nom),equipement(),baseAtk(force),baseHp(vie),x(x_coor),y(y_coor),chemin_texture(texture_path)
 {
     texture.loadFromFile(texture_path);
@@ -26,6 +28,7 @@ Personnage::Personnage(std::string nom, int vie, int force, int x_coor, int y_co
     sprite.setPosition(x,y);
 }
 
+// Constructeur par copie de Personnage
 Personnage::Personnage(const Personnage& orig):hp(orig.hp),atk(orig.atk),nom(orig.nom),equipement(orig.equipement),baseAtk(orig.baseAtk),baseHp(orig.baseHp),x(orig.x),y(orig.y)
 {
     texture = orig.texture;
@@ -33,7 +36,7 @@ Personnage::Personnage(const Personnage& orig):hp(orig.hp),atk(orig.atk),nom(ori
     sprite.setPosition(x,y);
 }
 
-void Personnage::appliquerEffetEquipement()
+void Personnage::appliquerEffetEquipement() // On applique les effets de l'équipement sur le personnage pour modifier ses stats
 {
     atk=baseAtk+equipement.getArme().getAtk()+equipement.getArmure().getAtk()+equipement.getMystique().getAtk();
 
@@ -63,8 +66,8 @@ void Personnage::ajouterMystique(Mystique& mystique)
     appliquerEffetEquipement();
 }
 
-    
-bool Personnage::estProche(Personnage& cible, int distance)
+
+bool Personnage::estProche(Personnage& cible, int distance) //On détecte si le personnage cible est situé à moins d'une distance de "distance" pixels du personnage actuel en X et en Y
 {
     int a = static_cast<int>(x - cible.getX());
     int b = static_cast<int>(y - cible.getY());
@@ -109,7 +112,7 @@ void Ennemi::attaquer(Allie &cible)
     cible.subir(this->atk);
 }
 
-void Ennemi::setPrisonnier(Allie &allie){
+void Ennemi::setPrisonnier(Allie &allie){ //On définit le prisonnier de l'ennemi
 
     prisonnier = allie;
     prisonnier.getTexture().loadFromFile(allie.getTexturePath());

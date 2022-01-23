@@ -63,10 +63,9 @@ void Game::run(vector<Map*> maps)
     objets.push_back(objet4);
 
 
-    // Creation du texte de combat
 
 
-    // Item Declaration
+    // Déclaration des objets
 
     sf::Texture armure_texture;
     armure_texture.loadFromFile("Images/épée_4.png");
@@ -85,6 +84,8 @@ void Game::run(vector<Map*> maps)
     Mystique orbe2("orbe_2",20,0,0,true,"Images/relique_2.png");
     Mystique orbe3("orbe_3",20,0,0,true,"Images/relique_3.png");
 
+
+// Ajout des armes sur les alliés de départ
 
     joueur.getAllie(0).ajouterArme(epee1);
     joueur.getAllie(0).ajouterArmure(armure1);
@@ -152,21 +153,21 @@ void Game::run(vector<Map*> maps)
 
     while(1)
     {
-        if (maps[2]->getEnnemis()[0].getHP() <= 0)
+        if (maps[2]->getEnnemis()[0].getHP() <= 0) // On regarde si les points de vie du boss sont nuls
         {
             cout << "VICTOIRE" << endl;
             break;
         }
 
-        if (switched)
+        if (switched) // On détecte si on vient de changer de carte
         {
-            if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration())
+            if (music.getBuffer()->getDuration() != map_actuelle->getBufferMain().getDuration()) // Si oui on change de musique si celle de la nouvelle carte est différente
             {
                 music.setBuffer(map_actuelle->getBufferMain());
                 music.setLoop(true);
                 music.play();
             }
-            music_combat.setBuffer(map_actuelle->getBufferCombat());
+            music_combat.setBuffer(map_actuelle->getBufferCombat()); // On change le buffer de la musique de combat de la carte, les ennemis et les obstacles
             ennemis = map_actuelle->getEnnemis();
             obstacles = map_actuelle->getObstacles();
             switched = false;
@@ -186,10 +187,11 @@ void Game::run(vector<Map*> maps)
                 {
                     back_x = joueur.getX();
                     back_y = joueur.getY();
-                    if (event.key.code == sf::Keyboard::I)
+                    if (event.key.code == sf::Keyboard::I) // Si on appuie sur I on active l'inventaire
                     {   
                         dans_inventaire = !dans_inventaire;
                     }
+                    // Si on appuie sur les flèches directionnelles on déplace le joueur s'il ne sort pas des limites de la carte
                     else if (event.key.code == sf::Keyboard::Up && joueur.getY() >= 0)
                     {
                         joueur.setPosition(joueur.getX(),joueur.getY()-10);
@@ -232,7 +234,7 @@ void Game::run(vector<Map*> maps)
                     }
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 }
-                else if (dans_inventaire)
+                else if (dans_inventaire) // Si l'on est dans l'inventaire et que l'on appuie sur la touche I on sort de l'inventaires
                 {   
                     if (event.key.code == sf::Keyboard::I)
                     {
@@ -242,45 +244,43 @@ void Game::run(vector<Map*> maps)
             }
             
         }
-        if(en_combat)
+        if(en_combat) // Suite d'instructions à suivre si le joueur est dans un combat
         {
-
+            // On lance la musique de combat
             music.stop();
             music_combat.setLoop(true);
             music_combat.play();
             map_actuelle->getSpriteCombat().setPosition(20,20);
             Combat combat(joueur,ennemis[combat_index],*maps[map_index]);
-            if (combat.commencer(window,music_combat))
+            if (combat.commencer(window,music_combat)) // Si le combat est terminé
             {
-                if(ennemis[combat_index].getloot_allie()){
+                if(ennemis[combat_index].getloot_allie()){ // Si l'ennemi vaincu possède un prisonnier on l'ajoute à la liste des alliés du joueur
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
-                ennemis[combat_index].setHp(0);
-                map_actuelle->setEnnemis(ennemis);
+                ennemis[combat_index].setHp(0); // On passe l'ennemi à 0 hp pour le rendre obsolète sur la carte
+                map_actuelle->setEnnemis(ennemis); // On actualise les ennemis de la carte
                 switched=true;
                 
 
             }
-            else
+            else // Si on sort du combat (fermeture de la fenêtre de combat)
             {
-                joueur.setPosition(back_x,back_y);
+                joueur.setPosition(back_x,back_y); // On revient à la position du joueur avant le combat
                 sprite_joueur.setPosition(back_x,back_y);
             }
-            music.play();
+            music.play(); // On relance la musique de la carte
             en_combat = false;
             
 
         }
-        else
+        else //Suite d'instructions à suivre si le joueur n'est pas engagé dans un combat
         {
             
-            //SUITE D'INSTRUCTIONS POUR LE JEU HORS COMBAT
-            
-            //CHECK SI LE JOUEUR EST SUR LA PORTE NORD
+            //On regarde si le joueur est sur la porte nord de la carte
 
             if (map_actuelle->getPorteNord().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapNord() != NULL)
             {
-
+                // On change la carte et on réinitialise la position du joueur sur la fenêtre
                 map_actuelle = map_actuelle->getMapNord();
                 new_x = (map_actuelle->getPorteSud().getX2() + map_actuelle->getPorteSud().getX1())/2 + 20;
                 new_y = (map_actuelle->getPorteSud().getY2() + map_actuelle->getPorteSud().getY1())/2 - 10;
@@ -289,10 +289,11 @@ void Game::run(vector<Map*> maps)
                 switched = true;
             }
 
-            //CHECK SI LE JOUEUR EST SUR LA PORTE SUD
+            //On regarde si le joueur se situe sur la porte sud de la carte
 
             if (map_actuelle->getPorteSud().entre(joueur.getX(),joueur.getY()) && map_actuelle->getMapSud() != NULL)
             {
+                // On change la carte et on réinitialise la position du joueur sur la fenêtre
                 map_actuelle = map_actuelle->getMapSud();
                 new_x = (map_actuelle->getPorteNord().getX2() + map_actuelle->getPorteNord().getX1())/2 - 10;
                 new_y = (map_actuelle->getPorteNord().getY2() + map_actuelle->getPorteNord().getY1())/2 + 10;
@@ -300,20 +301,24 @@ void Game::run(vector<Map*> maps)
                 sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 switched = true;            }
             
-            for (size_t i = 0;i<ennemis.size();i++)
+            for (size_t i = 0;i<ennemis.size();i++) // Pour chaque ennemi présent sur la carte
             {
-                if (joueur.estProche(ennemis[i],10) && !ennemis[i].estMort())
+                if (joueur.estProche(ennemis[i],10) && !ennemis[i].estMort()) // On fait entrer le joueur en combat avec le premier ennemi de la carte qui est assez proche de lui et qui n'est pas mort
                 {
                     en_combat = true;
-                    combat_index = i;
+                    combat_index = i; // On enregistre l'index de l'ennemi dans le vecteur d'ennemis
                     break;
                 }
             }
 
 
+            //Suite d'instructions concernant l'affichage à l'écran
 
             window.clear();
-            if (dans_inventaire)
+
+            if (dans_inventaire) 
+            // Si le joueur est actuellement dans l'inventaire on dessine le fond de l'inventaire, les différents sprites des alliés,
+            // les différents objets tenus par les alliés ainsi que les objets dans l'inventaire du joueur qui n'ont été assignés à aucun allié
             {
                 window.draw(spriteInventaire);
                 liste_allies = joueur.getAllAllies();
@@ -377,7 +382,7 @@ void Game::run(vector<Map*> maps)
                 }
                 
             }
-            else
+            else // Si le joueur n'est pas dans l'inventaire on dessine d'abord la carte, puis les ennemis, et enfin le personnage représentant le joueur
             {
                 window.draw(map_actuelle->getSprite());
                 for (size_t i=0;i<ennemis.size();i++)
@@ -390,8 +395,7 @@ void Game::run(vector<Map*> maps)
                 window.draw(sprite_joueur);
             }
             
-            // window.draw();
-            window.display();
+            window.display(); // On affiche dans la fenêtre tout ce qui a été dessiné
         }
     }
 }
