@@ -26,7 +26,6 @@ class Equipement
         void setArme(Arme& arme);
         void setArmure(Armure& armure);
         void setMystique(Mystique& mystique);
-        //void afficher(); Implementation avec IMGUI
 
     private://A modifier pour rendre heritage possible si besoin 
         int max_objets;

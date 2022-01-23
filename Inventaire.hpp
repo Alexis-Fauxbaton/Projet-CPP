@@ -18,17 +18,16 @@ class Inventaire//Inventaire du Master
         int getNbObjet();
         void ajouterObjet(Objet objet);
         void retirerObjet(size_t index);
-        void affecterObjet(Arme& arme, Personnage& personnage); // A coder
+        void affecterObjet(Arme& arme, Personnage& personnage);
         void affecterObjet(Armure& armure, Personnage& personnage);
         void affecterObjet(Mystique& mystique, Personnage& personnage);
-        void desaffecterObjet(Arme& arme, Personnage& personnage); // A coder
+        void desaffecterObjet(Arme& arme, Personnage& personnage);
         void desaffecterObjet(Armure& armure, Personnage& personnage);
         void desaffecterObjet(Mystique& mystique, Personnage& personnage);
         vector<Objet> &getObjets(){return objets;};
         Objet& getObjet(size_t index){return objets[index];};
-        //void afficher(); Implementation avec IMGUI
 
-    private://A modifier pour rendre heritage possible si besoin 
+    private:
         size_t max_objets;
         vector<Objet> objets;
         

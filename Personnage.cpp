@@ -2,7 +2,6 @@
 #include <string>
 #include "Personnage.hpp"
 #include "Equipement.hpp"
-//#include "Allie.hpp"
 using namespace std;
 
 int v_abs(int a){

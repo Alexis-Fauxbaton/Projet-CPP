@@ -26,10 +26,6 @@ void Game::run(vector<Map*> maps)
     int new_y = 0;
     vector<Ennemi> ennemis;
     vector<Obstacle> obstacles = map_actuelle->getObstacles();
-    /*for (size_t i = 0;i < 3;i++)
-    {
-        ennemis.push_back(Ennemi("Ennemi"+to_string(i),100,10,i*50,75,"Images/poubelle2.png"));
-    }*/
 
     Maitre joueur("Joueur",100,50,100,340,"Images/joueur.png");
     Inventaire inventaire;
@@ -141,11 +137,7 @@ void Game::run(vector<Map*> maps)
     textureMythique.loadFromFile("Images/mythique_vide.png");
     spriteMytique.setTexture(textureMythique);
     
-    // sf::Sprite sprite_epee = joueur.getAllie(0).getEquipement().getArme().getSprite()é;
-    // sprite_epee.setTexture(armure_texture);
-    
 
-    cout << "ICI2" << endl;
     size_t back_x = 0;
     size_t back_y = 0;
 
@@ -233,21 +225,11 @@ void Game::run(vector<Map*> maps)
                     
                     for (size_t i=0;i<obstacles.size();i++)
                     {
-                        if (i == 2)
-                        {
-                            cout << "Pos joueur : " << joueur.getX() << " " << joueur.getY() << endl;  
-                            cout << (obstacles[i].detecter_collision(joueur)) << endl;
-                            cout << "Pos obstacle : " << obstacles[i].getX() << " " << obstacles[i].getY() << endl;
-                            cout << "Largeur : " << obstacles[i].getLongueur() << " Hauteur : " << obstacles[i].getLargeur() << endl;
-                        }
-                                          
-                        
                         if (obstacles[i].detecter_collision(joueur))
                         {
                             joueur.setPosition(back_x,back_y);
                         }
                     }
-                    cout << "Pos joueur : " << joueur.getX() << " " << joueur.getY() << endl;
                     sprite_joueur.setPosition(joueur.getX(),joueur.getY());
                 }
                 else if (dans_inventaire)
@@ -266,9 +248,7 @@ void Game::run(vector<Map*> maps)
             music.stop();
             music_combat.setLoop(true);
             music_combat.play();
-            cout << "Map position 1 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             map_actuelle->getSpriteCombat().setPosition(20,20);
-            cout << "Map position 2 " <<map_actuelle->getSpriteCombat().getPosition().x << map_actuelle->getSpriteCombat().getPosition().y << endl;
             Combat combat(joueur,ennemis[combat_index],*maps[map_index]);
             if (combat.commencer(window,music_combat))
             {
@@ -276,7 +256,6 @@ void Game::run(vector<Map*> maps)
                     joueur.addAllie(ennemis[combat_index].getPrisonnier());
                 }
                 ennemis[combat_index].setHp(0);
-                //ennemis.erase(ennemis.begin()+combat_index);
                 map_actuelle->setEnnemis(ennemis);
                 switched=true;
                 
@@ -286,7 +265,6 @@ void Game::run(vector<Map*> maps)
             {
                 joueur.setPosition(back_x,back_y);
                 sprite_joueur.setPosition(back_x,back_y);
-                // joueur.getSprite().setPosition(back_x,back_y);
             }
             music.play();
             en_combat = false;
@@ -409,7 +387,6 @@ void Game::run(vector<Map*> maps)
                         window.draw(ennemis[i].getSprite());
                     }
                 }
-                window.draw(joueur.getAllie(0).getEquipement().getArme().getSprite());
                 window.draw(sprite_joueur);
             }
             

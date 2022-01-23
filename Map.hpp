@@ -46,10 +46,7 @@ class Map
         void run();
 
     private:
-        vector<Ennemi> ennemis; //Initialisés aléatoirement ?
-        //Ajouter un attribut caractérisant les portes nord sud est ouest 
-        //par lesquelles le joueur peut sortir/entrer de la map
-        //AJOUTER LARGEUR ET LONGUEUR EN PIXELS
+        vector<Ennemi> ennemis;
         sf::Sprite sprite;
         sf::Sprite sprite_combat;
         sf::Texture texture;

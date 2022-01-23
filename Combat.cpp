@@ -22,7 +22,6 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     while(abs(allie.getSprite().getPosition().x - ennemi.getSprite().getPosition().x)>10){
 
          allie.getSprite().setPosition(allie.getSprite().getPosition().x+3,allie.getSprite().getPosition().y);
-         //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
 
          window.draw(sprite_map);
          window.draw(perso1.getSprite());
@@ -56,9 +55,6 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
     music.play();
     sleep(1);
     allie.attaquer(ennemi);
-    cout << ennemi.getBaseHP() << endl;
-    cout << ennemi.getHP() << endl;
-    cout << (ennemi.getHP()/ennemi.getBaseHP())*50 << endl;
     if(!ennemi.estMort()){
         ennemi.getLifeBar().setSize(sf::Vector2f((ennemi.getHP()*1.0/ennemi.getBaseHP())*50,5));
     }
@@ -108,7 +104,6 @@ void attaquer_animation2(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Ma
     while(abs(ennemi.getSprite().getPosition().x - allie.getSprite().getPosition().x)>10){
 
          ennemi.getSprite().setPosition(ennemi.getSprite().getPosition().x-3,ennemi.getSprite().getPosition().y);
-         //  cout << "ANIMATION COMBAT : " << allie.getSprite().getPosition().x << endl;
 
          window.draw(sprite_map);
          window.draw(perso1.getSprite());
@@ -198,14 +193,11 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
     perso1.getSprite().setPosition(20,240);
     perso2.getSprite().setPosition(600,240);                 
-    cout << perso1.getSprite().getPosition().x << endl;
 
     for(size_t i=0;i < perso1.getAllAllies().size();i++){
         perso1.getAllie(i).getSprite().setPosition(sf::Vector2f(perso1.getSprite().getPosition().x+70*(i+1),perso1.getSprite().getPosition().y));
     }
                    
-    // perso1.getAllie(0).getSprite().setPosition(500,100);
-    cout << perso1.getAllie(0).getSprite().getPosition().x << endl;
 
     // Bar de vies et menus       
 
@@ -257,7 +249,6 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
     //Phase 0
 
     sf::Text phase_0_choose("Tour de : ",font_game,14);
-    //  phase_0_choose.setFillColor(sf::Color::Black);
     phase_0_choose.setPosition(300,100);
     
 
@@ -282,12 +273,11 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
     while(1){
 
-        //std::cout << "map sprite position :" << map.getSpriteCombat().getPosition().x << map.getSpriteCombat().getPosition().y << std::endl; 
 
         sf::Event event_combat;
         while(window.pollEvent(event_combat)){
 
-            cout << "DEBUT" << endl;
+            
              window.draw(sprite_map);
              window.draw(perso1.getSprite());
              window.draw(perso2.getSprite());
@@ -354,7 +344,6 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 window.draw(phase_0_choose);
                 phase_0_choose.setString("Tour de : ");
 
-                cout << "ICI PHASE 0" << endl;
                 if(!perso1.getAllie(allie_turn).estMort()){
 
                 
@@ -395,8 +384,6 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
             
             else if(phase == 1 && !perso2.estMort()){
                 
-                cout << "PHASE COMBAT LAAA" << endl;
-                
                 int cible = perso1.getAllAllies().size() - 1;
                 while(1){
                     if(perso1.getAllie(cible).estMort()){
@@ -433,8 +420,6 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
         }
 
-    
-        //std::cout << "voucle inf" << std::endl;
     }
     return false;
 }

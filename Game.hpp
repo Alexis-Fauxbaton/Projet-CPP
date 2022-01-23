@@ -15,10 +15,6 @@
 
 using namespace std;
 
-//vector<Objet> OBJETS; // A DEFINIR
-
-//vector<Map> MAPS; // A DEFINIR
-
 class Game
 {
     public:

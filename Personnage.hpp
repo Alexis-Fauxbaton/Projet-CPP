@@ -5,7 +5,6 @@
 #include "Equipement.hpp"
 #include "Objet.hpp"
 #include <SFML/Graphics.hpp>
-//#include "Allie.hpp"
 using namespace std;
 
 class Equipement;
@@ -25,7 +24,6 @@ class Personnage
         Personnage(std::string nom, int vie, int force, int x_coor, int y_coor,string texture_path);
         Personnage(const Personnage& orig);
         ~Personnage(){};
-        //void afficher(); Implementation avec IMGUI
         virtual void attaquer(Allie &cible)=0;
         virtual void attaquer(Ennemi &cible)=0;
         void subir(int degats){hp-=degats;};

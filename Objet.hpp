@@ -13,7 +13,6 @@ class Objet
         Objet();
         Objet(std::string nom, int vie, int force, int defense, bool equipe,string texture_path);
         ~Objet(){};
-        //void afficher(); Implementation avec IMGUI
         void setNom(std::string name){nom=name;}
         void setHp(int vie){hp=vie;}
         void setAtk(int force){atk=force;}
@@ -29,7 +28,7 @@ class Objet
         string getTexturePath(){return chemin_texture;};
         Objet operator=(const Objet &objet);
 
-    protected://A modifier pour rendre heritage possible si besoin 
+    protected:
         int hp;
         int atk;
         int def;
