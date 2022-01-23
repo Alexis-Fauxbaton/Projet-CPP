@@ -25,6 +25,7 @@ class Inventaire//Inventaire du Master
         void desaffecterObjet(Armure& armure, Personnage& personnage);
         void desaffecterObjet(Mystique& mystique, Personnage& personnage);
         vector<Objet> &getObjets(){return objets;};
+        Objet& getObjet(size_t index){return objets[index];};
         //void afficher(); Implementation avec IMGUI
 
     private://A modifier pour rendre heritage possible si besoin 

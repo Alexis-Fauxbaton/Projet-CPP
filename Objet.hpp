@@ -10,7 +10,7 @@ using namespace std;
 class Objet
 {
     public:
-        Objet():hp(0),atk(0),def(0),nom(""),estEquipe(false){};
+        Objet();
         Objet(std::string nom, int vie, int force, int defense, bool equipe,string texture_path);
         ~Objet(){};
         //void afficher(); Implementation avec IMGUI
@@ -29,7 +29,7 @@ class Objet
         string getTexturePath(){return chemin_texture;};
         Objet operator=(const Objet &objet);
 
-    private://A modifier pour rendre heritage possible si besoin 
+    protected://A modifier pour rendre heritage possible si besoin 
         int hp;
         int atk;
         int def;
@@ -46,7 +46,7 @@ class Arme : public Objet
     public:
         Arme():Objet(){};
         Arme(std::string nom, int vie, int force, int defense, bool equipe,string texture_path):Objet(nom,vie,force,defense,equipe,texture_path){};
-        ~Arme(){};    
+        ~Arme(){};
 
 };
 

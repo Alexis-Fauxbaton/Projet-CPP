@@ -36,6 +36,7 @@ class Personnage
         int getHP(){return hp;}
         int getAtk(){return atk;}
         int getBaseHP(){return baseHp;};
+        void setEquipement(Equipement& equipement){this->equipement=equipement;}
         Equipement& getEquipement(){return equipement;}
         void appliquerEffetEquipement();
         void ajouterArme(Arme& arme);
