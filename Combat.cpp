@@ -19,10 +19,13 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
 
 
    int initial_allie_position = allie.getSprite().getPosition().x;
+
+   // l'allié qui attaque se déplace jusqu'a l'ennemi
     while(abs(allie.getSprite().getPosition().x - ennemi.getSprite().getPosition().x)>10){
 
          allie.getSprite().setPosition(allie.getSprite().getPosition().x+3,allie.getSprite().getPosition().y);
 
+        // on draw les alliés, le joueur et l'ennemi à chaque tour
          window.draw(sprite_map);
          window.draw(perso1.getSprite());
          window.draw(ennemi.getSprite());
@@ -47,6 +50,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
          window.clear();
     }
 
+    // son d'attaque et on inflige les dégats
 
     sf::SoundBuffer default_buffer;
     default_buffer.loadFromFile("Sound/attack-sound-effect-new-yorker (mp3cut.net).wav");
@@ -62,7 +66,7 @@ void attaquer_animation(Allie &allie,Ennemi &ennemi,sf::RenderWindow &window,Mai
         ennemi.getLifeBar().setSize(sf::Vector2f(0,5));
     }
     
-
+    // l'allié retourne a sa place
 
     while(abs(allie.getSprite().getPosition().x - initial_allie_position)>=3){
         allie.getSprite().setPosition(allie.getSprite().getPosition().x-3,allie.getSprite().getPosition().y);
@@ -273,11 +277,12 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
 
     while(1){
 
+        // On initialise la boucle du combat
 
         sf::Event event_combat;
         while(window.pollEvent(event_combat)){
 
-            
+            // On draw la map a chaque tour, le joueur, l'ennemi et les barres de vies
              window.draw(sprite_map);
              window.draw(perso1.getSprite());
              window.draw(perso2.getSprite());
@@ -285,6 +290,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
              window.draw(perso2.getLifeBar());
              
 
+            // On regarde si tous les alliés sont morts
             mort = 1;
             for(size_t i = 0;i < perso1.getAllAllies().size();i++){
                 if(!perso1.getAllie(i).estMort()){
@@ -292,7 +298,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                     break;
                 }
             }
-
+            // Si l'ennemi est mort on déclanche l'animation de fin et on ferme la fenêtre de combat
             if(perso2.estMort()){
 
                 for(size_t i = 0;i<perso1.getAllAllies().size();i++){
@@ -324,6 +330,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 return true;
             }
 
+            // Si tous les alliés sont morts on ferme la fenêtre de combat
             if(event_combat.type == sf::Event::Closed || mort == 1)
             {
                 music.stop();
@@ -332,7 +339,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
             }
 
             
-
+            // La phase 0 correspond au tour des alliés, is peuvent choisir entre attaquer ou prendre la fuite
             if(phase == 0){
 
                 window.draw(phase_01_press1);
@@ -382,6 +389,7 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 
             } 
             
+            // la phase 1 correspond au tour de l'ennemi qui contre attaque l'allié le plus proche de lui
             else if(phase == 1 && !perso2.estMort()){
                 
                 int cible = perso1.getAllAllies().size() - 1;
@@ -397,6 +405,8 @@ bool Combat::commencer(sf::RenderWindow &window,sf::Sound &music){
                 phase = 0;
 
             }
+
+            // on affiche les alliés a chaque tour avec leurs items et les barres de vies
             
             for(size_t i = 0;i<perso1.getAllAllies().size();i++){
                 if(!perso1.getAllie(i).estMort()){
